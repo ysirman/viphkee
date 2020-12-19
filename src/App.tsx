@@ -25,6 +25,11 @@ const App: React.FC = () => {
     start: "0:00",
     end: "0:00",
   });
+  const [zoomState, setZoomState] = useState({
+    isZoom: false,
+    min: 0,
+    max: 100,
+  });
 
   const validateHHMMSS = (hhmmdd: string): boolean => {
     if (hhmmdd.match(/^([1-9]:)?([0-5]?[0-9]:)?([0-5]?[0-9])$/) === null) {
@@ -133,6 +138,38 @@ const App: React.FC = () => {
     { value: 100, label: secondsToTime(state.duration) },
   ];
 
+  const zoomMarks = () => {
+    const zoomMarksBaseValue = (zoomState.max - zoomState.min) / 4;
+    return [
+      {
+        value: zoomState.min,
+        label: secondsToTime((state.duration * zoomState.min) / 100),
+      },
+      {
+        value: zoomState.min + zoomMarksBaseValue,
+        label: secondsToTime(
+          (state.duration * (zoomState.min + zoomMarksBaseValue)) / 100
+        ),
+      },
+      {
+        value: zoomState.min + zoomMarksBaseValue * 2,
+        label: secondsToTime(
+          (state.duration * (zoomState.min + zoomMarksBaseValue * 2)) / 100
+        ),
+      },
+      {
+        value: zoomState.max - zoomMarksBaseValue,
+        label: secondsToTime(
+          (state.duration * (zoomState.max - zoomMarksBaseValue)) / 100
+        ),
+      },
+      {
+        value: zoomState.max,
+        label: secondsToTime((state.duration * zoomState.max) / 100),
+      },
+    ];
+  };
+
   const handleChangeRange = (_: any, newValue: number | number[]) => {
     if (newValue instanceof Array) {
       setLoopState({
@@ -157,6 +194,20 @@ const App: React.FC = () => {
     setState({ ...state, seeking: false });
     if (player !== null && typeof newValue === "number") {
       player.seekTo(newValue);
+    }
+  };
+
+  const handleZooming = (_: any) => {
+    if (zoomState.isZoom === false && loopState.end !== "0:00") {
+      const min = (timeToSeconds(loopState.start) / state.duration) * 100 - 5;
+      const max = (timeToSeconds(loopState.end) / state.duration) * 100 + 5;
+      setZoomState({
+        isZoom: true,
+        min: min < 0 ? 0 : min,
+        max: max > 100 ? 100 : max,
+      });
+    } else {
+      setZoomState({ ...zoomState, isZoom: false });
     }
   };
 
@@ -196,8 +247,16 @@ const App: React.FC = () => {
         />
       </Box>
       <Box mb={5}>
-        <h3>Loop</h3>
+        <h3>
+          Loop:
+          <button onClick={handleZooming}>
+            {zoomState.isZoom ? "拡大解除する" : "拡大する"}
+          </button>
+        </h3>
         <Slider
+          min={zoomState.isZoom ? zoomState.min : 0}
+          max={zoomState.isZoom ? zoomState.max : 100}
+          step={0.0000000001}
           value={[
             (timeToSeconds(loopState.start) / state.duration) * 100,
             (timeToSeconds(loopState.end) / state.duration) * 100,
@@ -209,7 +268,7 @@ const App: React.FC = () => {
             (timeToSeconds(loopState.start) / state.duration) * 100,
             (timeToSeconds(loopState.end) / state.duration) * 100,
           ]}
-          marks={loopMarks}
+          marks={zoomState.isZoom ? zoomMarks() : loopMarks}
           valueLabelDisplay={"auto"}
           valueLabelFormat={(v) => secondsToTime((v / 100) * state.duration)}
           onChange={handleChangeRange}

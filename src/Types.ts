@@ -15,6 +15,12 @@ export type LoopState = {
   end: string;
 };
 
+export type ZoomState = {
+  isLoop: boolean;
+  min: number;
+  max: number;
+};
+
 export type Progress = {
   played: number;
   playedSeconds: number;
