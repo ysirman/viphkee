@@ -5,6 +5,22 @@ import { PlayerState, Progress } from "./Types";
 
 import Slider from "@material-ui/core/Slider";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+
+import VolumeUp from "@material-ui/icons/VolumeUp";
+import LoopIcon from "@material-ui/icons/Loop";
+import ZoomOutMapIcon from "@material-ui/icons/ZoomOutMap";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import FastForwardIcon from "@material-ui/icons/FastForward";
+import ScheduleIcon from "@material-ui/icons/Schedule";
 
 const App: React.FC = () => {
   const inputUrlEl = useRef(document.createElement("input"));
@@ -42,7 +58,7 @@ const App: React.FC = () => {
     if (validateHHMMSS(loopState.start)) {
       return;
     }
-    if (validateHHMMSS(loopState.end)) {
+    if (validateHHMMSS(loopState.end) || loopState.end === "0:00") {
       return;
     }
     setLoopState({ ...loopState, isLoop: !loopState.isLoop });
@@ -79,12 +95,10 @@ const App: React.FC = () => {
     return parseInt(time);
   };
 
-  const handlePlaybackRate = (plusOrMinus: number) => {
-    const rate = state.playbackRate + plusOrMinus * 0.25;
-    if (rate < 0.25) {
-      return;
+  const handlePlaybackRate = (_: any, rate: number | number[]) => {
+    if (typeof rate === "number") {
+      setState({ ...state, playbackRate: rate });
     }
-    setState({ ...state, playbackRate: rate });
   };
 
   const handleProgress = (progress: Progress) => {
@@ -211,13 +225,61 @@ const App: React.FC = () => {
     }
   };
 
+  const handleVolume = (_: any, newValue: number | number[]) => {
+    if (typeof newValue === "number") {
+      setState({ ...state, volume: newValue });
+    }
+  };
+
+  const handleLoopStartUpDown = (plusOrMinus: number) => {
+    const newStartValue = timeToSeconds(loopState.start) + 1 * plusOrMinus;
+    if (newStartValue >= 0 && newStartValue < timeToSeconds(loopState.end)) {
+      setLoopState({
+        ...loopState,
+        start: secondsToTime(newStartValue),
+      });
+    }
+  };
+
+  const handleLoopEndUpDown = (plusOrMinus: number) => {
+    const newEndValue = timeToSeconds(loopState.end) + 1 * plusOrMinus;
+    if (
+      newEndValue <= state.duration &&
+      newEndValue > timeToSeconds(loopState.start)
+    ) {
+      setLoopState({
+        ...loopState,
+        end: secondsToTime(newEndValue),
+      });
+    }
+  };
+
+  const handleUrlLoadButton = (url: string) => {
+    const pattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    if (pattern.test(url)) {
+      setState({ ...state, url: url });
+    }
+  };
+
   return (
-    <Box className="App" m={5}>
+    <Box className="App">
       <ReactPlayer
         ref={(ref) => setPlayer(ref)}
         className="react-player"
         width="100%"
-        height="100%"
+        height={
+          window.innerWidth > 1024
+            ? "calc(100vh - 240px)"
+            : "calc((9 / 16) * 100vw)"
+        }
         url={state.url}
         volume={state.volume}
         playing={state.playing}
@@ -230,169 +292,198 @@ const App: React.FC = () => {
         onProgress={(state) => handleProgress(state)}
         onDuration={(state) => handleDuration(state)}
       />
-      <h2>Setting</h2>
-      <Box>
-        <h3>Seek:{secondsToTime(state.duration * state.played)}</h3>
-        <Slider
-          min={0}
-          max={0.999999}
-          step={0.000001}
-          value={state.played}
-          marks={seekMarks}
-          valueLabelDisplay={"auto"}
-          valueLabelFormat={(v) => secondsToTime(v * state.duration)}
-          onMouseDown={handleSeekMouseDown}
-          onChange={handleSeekChange}
-          onChangeCommitted={handleSeekMouseUp}
-        />
-      </Box>
-      <Box mb={5}>
-        <h3>
-          Loop:
-          <button onClick={handleZooming}>
-            {zoomState.isZoom ? "拡大解除する" : "拡大する"}
-          </button>
-        </h3>
-        <Slider
-          min={zoomState.isZoom ? zoomState.min : 0}
-          max={zoomState.isZoom ? zoomState.max : 100}
-          step={0.0000000001}
-          value={[
-            (timeToSeconds(loopState.start) / state.duration) * 100,
-            (timeToSeconds(loopState.end) / state.duration) * 100,
-          ]}
-          getAriaLabel={(index) =>
-            index === 0 ? "Start loop time" : "End loop time"
-          }
-          defaultValue={[
-            (timeToSeconds(loopState.start) / state.duration) * 100,
-            (timeToSeconds(loopState.end) / state.duration) * 100,
-          ]}
-          marks={zoomState.isZoom ? zoomMarks() : loopMarks}
-          valueLabelDisplay={"auto"}
-          valueLabelFormat={(v) => secondsToTime((v / 100) * state.duration)}
-          onChange={handleChangeRange}
-        />
-        <input
-          type="checkbox"
-          checked={loopState.isLoop}
-          onChange={handleLooping}
-        />
-        <input
-          type="text"
-          placeholder="Loop Start"
-          value={loopState.start}
-          onChange={(e) => handleLoopStart(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Loop End"
-          value={loopState.end}
-          onChange={(e) => handleLoopEnd(e.target.value)}
-        />
-      </Box>
-      <table>
-        <tbody>
-          <tr>
-            <th>Custom URL</th>
-            <td>
-              <input ref={inputUrlEl} type="text" placeholder="Enter URL" />
-              <button
-                onClick={() =>
-                  setState({ ...state, url: inputUrlEl.current.value })
-                }
-              >
-                Load
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <th>Volume</th>
-            <td>
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step="any"
-                value={state.volume}
-                onChange={(e) =>
-                  setState({ ...state, volume: parseFloat(e.target.value) })
-                }
+      <Box m={4} mt={1}>
+        <Box mb={1}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid
+              container
+              item
+              xs={2}
+              spacing={1}
+              alignItems="center"
+              justify="center"
+            >
+              <Grid item>
+                <ScheduleIcon />
+              </Grid>
+              <Grid item xs>
+                <Typography>
+                  {secondsToTime(state.duration * state.played)}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container item xs={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  marks={[
+                    { value: 0.3, label: 0.3 },
+                    { value: 0.7, label: 0.7 },
+                  ]}
+                  valueLabelDisplay={"auto"}
+                  value={state.volume}
+                  onChange={handleVolume}
+                  aria-labelledby="continuous-slider"
+                />
+              </Grid>
+            </Grid>
+            <Grid container item xs spacing={1} alignItems="center">
+              <Grid item>
+                <FastForwardIcon />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  min={0.01}
+                  max={2}
+                  step={0.01}
+                  marks={[
+                    { value: 0.5, label: 0.5 },
+                    { value: 1, label: 1 },
+                    { value: 1.5, label: 1.5 },
+                    { value: 2, label: 2 },
+                  ]}
+                  valueLabelDisplay={"auto"}
+                  color={"secondary"}
+                  value={state.playbackRate}
+                  onChange={handlePlaybackRate}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Slider
+            min={0}
+            max={0.999999}
+            step={0.000001}
+            color={loopState.isLoop ? "secondary" : "primary"}
+            value={state.played}
+            marks={seekMarks}
+            valueLabelDisplay={"auto"}
+            valueLabelFormat={(v) => secondsToTime(v * state.duration)}
+            onMouseDown={handleSeekMouseDown}
+            onChange={handleSeekChange}
+            onChangeCommitted={handleSeekMouseUp}
+          />
+        </Box>
+        <Box>
+          <Slider
+            min={zoomState.isZoom ? zoomState.min : 0}
+            max={zoomState.isZoom ? zoomState.max : 100}
+            step={0.0000000001}
+            color={zoomState.isZoom ? "secondary" : "primary"}
+            value={[
+              (timeToSeconds(loopState.start) / state.duration) * 100,
+              (timeToSeconds(loopState.end) / state.duration) * 100,
+            ]}
+            getAriaLabel={(index) =>
+              index === 0 ? "Start loop time" : "End loop time"
+            }
+            defaultValue={[
+              (timeToSeconds(loopState.start) / state.duration) * 100,
+              (timeToSeconds(loopState.end) / state.duration) * 100,
+            ]}
+            marks={zoomState.isZoom ? zoomMarks() : loopMarks}
+            valueLabelDisplay={"auto"}
+            valueLabelFormat={(v) => secondsToTime((v / 100) * state.duration)}
+            onChange={handleChangeRange}
+          />
+          <Grid container spacing={1} justify="flex-start" alignItems="center">
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <LoopIcon color={loopState.isLoop ? "action" : "disabled"} />
+                </Grid>
+                <Grid item>
+                  <Switch checked={loopState.isLoop} onChange={handleLooping} />
+                </Grid>
+                <Grid item>
+                  <ZoomOutMapIcon
+                    color={zoomState.isZoom ? "action" : "disabled"}
+                  />
+                </Grid>
+                <Grid item>
+                  <Switch checked={zoomState.isZoom} onChange={handleZooming} />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid container item xs alignItems="center">
+                  <Grid item>
+                    <TextField
+                      label="Loop Start"
+                      variant="outlined"
+                      size="small"
+                      value={loopState.start}
+                      onChange={(e) => handleLoopStart(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <div>
+                      <ArrowDropUpIcon
+                        onClick={() => handleLoopStartUpDown(1)}
+                      />
+                    </div>
+                    <div>
+                      <ArrowDropDownIcon
+                        onClick={() => handleLoopStartUpDown(-1)}
+                      />
+                    </div>
+                  </Grid>
+                </Grid>
+                <Grid container item xs alignItems="center">
+                  <Grid item>
+                    <TextField
+                      label="Loop End"
+                      variant="outlined"
+                      size="small"
+                      value={loopState.end}
+                      onChange={(e) => handleLoopEnd(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <div>
+                      <ArrowDropUpIcon onClick={() => handleLoopEndUpDown(1)} />
+                    </div>
+                    <div>
+                      <ArrowDropDownIcon
+                        onClick={() => handleLoopEndUpDown(-1)}
+                      />
+                    </div>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item sm={11} xs={10}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Enter video URL
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-amount"
+                inputRef={inputUrlEl}
+                labelWidth={120}
               />
-            </td>
-          </tr>
-          <tr>
-            <th>速度</th>
-            <td>
-              {state.playbackRate}
-              <br />
-              <button
-                onClick={() => {
-                  handlePlaybackRate(-1);
-                }}
-              >
-                -
-              </button>
-              <button
-                onClick={() => {
-                  setState({ ...state, playbackRate: 1 });
-                }}
-              >
-                reset
-              </button>
-              <button
-                onClick={() => {
-                  handlePlaybackRate(1);
-                }}
-              >
-                +
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>State</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>url</th>
-            <td>{state.url}</td>
-          </tr>
-          <tr>
-            <th>volume</th>
-            <td>{state.volume.toFixed(3)}</td>
-          </tr>
-          <tr>
-            <th>played</th>
-            <td>{state.played}</td>
-          </tr>
-          <tr>
-            <th>elapsed</th>
-            <td>{secondsToTime(state.duration * state.played)}</td>
-          </tr>
-          <tr>
-            <th>
-              elapsed
-              <br />
-              (unformat)
-            </th>
-            <td>{state.duration * state.played}</td>
-          </tr>
-          <tr>
-            <th>duration</th>
-            <td>{secondsToTime(state.duration)}</td>
-          </tr>
-          <tr>
-            <th>
-              duration
-              <br />
-              (unformat)
-            </th>
-            <td>{state.duration}</td>
-          </tr>
-        </tbody>
-      </table>
+            </FormControl>
+          </Grid>
+          <Grid item sm={1} xs={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleUrlLoadButton(inputUrlEl.current.value)}
+            >
+              Load
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 };
