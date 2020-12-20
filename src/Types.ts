@@ -7,6 +7,8 @@ export type PlayerState = {
   loaded: number;
   duration: number;
   playbackRate: number;
+  loopState: LoopState;
+  zoomState: ZoomState;
 };
 
 export type LoopState = {
@@ -16,7 +18,7 @@ export type LoopState = {
 };
 
 export type ZoomState = {
-  isLoop: boolean;
+  isZoom: boolean;
   min: number;
   max: number;
 };

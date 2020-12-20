@@ -33,19 +33,21 @@ const App: React.FC = () => {
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
+    loopState: {
+      isLoop: false,
+      start: "0:00",
+      end: "0:00",
+    },
+    zoomState: {
+      isZoom: false,
+      min: 0,
+      max: 100,
+    },
   };
   const [state, setState] = useState(initialState);
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
-  const [loopState, setLoopState] = useState({
-    isLoop: false,
-    start: "0:00",
-    end: "0:00",
-  });
-  const [zoomState, setZoomState] = useState({
-    isZoom: false,
-    min: 0,
-    max: 100,
-  });
+  const loopState = state.loopState;
+  const zoomState = state.zoomState;
 
   const validateHHMMSS = (hhmmdd: string): boolean => {
     if (hhmmdd.match(/^([1-9]:)?([0-5]?[0-9]:)?([0-5]?[0-9])$/) === null) {
@@ -61,7 +63,10 @@ const App: React.FC = () => {
     if (validateHHMMSS(loopState.end) || loopState.end === "0:00") {
       return;
     }
-    setLoopState({ ...loopState, isLoop: !loopState.isLoop });
+    setState({
+      ...state,
+      loopState: { ...loopState, isLoop: !loopState.isLoop },
+    });
   };
 
   const handleLoopStart = (loopStart: string) => {
@@ -69,7 +74,10 @@ const App: React.FC = () => {
       loopStart = "0:00";
     }
     console.log("set loop start time:", loopStart);
-    setLoopState({ ...loopState, start: loopStart });
+    setState({
+      ...state,
+      loopState: { ...loopState, start: loopStart },
+    });
   };
 
   const handleLoopEnd = (loopEnd: string): void => {
@@ -77,7 +85,10 @@ const App: React.FC = () => {
       loopEnd = "0:00";
     }
     console.log("set loop end time:", loopEnd);
-    setLoopState({ ...loopState, end: loopEnd });
+    setState({
+      ...state,
+      loopState: { ...loopState, end: loopEnd },
+    });
   };
 
   const timeToSeconds = (time: string): number => {
@@ -186,10 +197,13 @@ const App: React.FC = () => {
 
   const handleChangeRange = (_: any, newValue: number | number[]) => {
     if (newValue instanceof Array) {
-      setLoopState({
-        ...loopState,
-        start: secondsToTime((newValue[0] / 100) * state.duration),
-        end: secondsToTime((newValue[1] / 100) * state.duration),
+      setState({
+        ...state,
+        loopState: {
+          ...loopState,
+          start: secondsToTime((newValue[0] / 100) * state.duration),
+          end: secondsToTime((newValue[1] / 100) * state.duration),
+        },
       });
     }
   };
@@ -215,13 +229,19 @@ const App: React.FC = () => {
     if (zoomState.isZoom === false && loopState.end !== "0:00") {
       const min = (timeToSeconds(loopState.start) / state.duration) * 100 - 5;
       const max = (timeToSeconds(loopState.end) / state.duration) * 100 + 5;
-      setZoomState({
-        isZoom: true,
-        min: min < 0 ? 0 : min,
-        max: max > 100 ? 100 : max,
+      setState({
+        ...state,
+        zoomState: {
+          isZoom: true,
+          min: min < 0 ? 0 : min,
+          max: max > 100 ? 100 : max,
+        },
       });
     } else {
-      setZoomState({ ...zoomState, isZoom: false });
+      setState({
+        ...state,
+        zoomState: { ...zoomState, isZoom: false },
+      });
     }
   };
 
@@ -234,9 +254,9 @@ const App: React.FC = () => {
   const handleLoopStartUpDown = (plusOrMinus: number) => {
     const newStartValue = timeToSeconds(loopState.start) + 1 * plusOrMinus;
     if (newStartValue >= 0 && newStartValue < timeToSeconds(loopState.end)) {
-      setLoopState({
-        ...loopState,
-        start: secondsToTime(newStartValue),
+      setState({
+        ...state,
+        loopState: { ...loopState, start: secondsToTime(newStartValue) },
       });
     }
   };
@@ -247,9 +267,9 @@ const App: React.FC = () => {
       newEndValue <= state.duration &&
       newEndValue > timeToSeconds(loopState.start)
     ) {
-      setLoopState({
-        ...loopState,
-        end: secondsToTime(newEndValue),
+      setState({
+        ...state,
+        loopState: { ...loopState, end: secondsToTime(newEndValue) },
       });
     }
   };
