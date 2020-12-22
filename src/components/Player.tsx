@@ -52,6 +52,16 @@ const Player: React.FC = () => {
         },
       });
     }
+    if (playerState.seekValue !== null && player instanceof ReactPlayer) {
+      player.seekTo(playerState.seekValue);
+      dispatch({
+        type: PLAYER_CONFIG_CHANGE,
+        state: {
+          ...playerState,
+          seekValue: null,
+        },
+      });
+    }
   };
 
   const handleDuration = (duration: number) => {
@@ -88,7 +98,7 @@ const Player: React.FC = () => {
         onProgress={(state) => handleProgress(state)}
         onDuration={(state) => handleDuration(state)}
       />
-      <PlayerConfig player={player} />
+      <PlayerConfig />
     </Box>
   );
 };

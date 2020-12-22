@@ -21,9 +21,8 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import FastForwardIcon from "@material-ui/icons/FastForward";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-import ReactPlayer from "react-player";
 
-const PlayerConfig: React.FC<{ player: ReactPlayer | null }> = (player) => {
+const PlayerConfig: React.FC = () => {
   const { playerState, dispatch } = useContext(PlayerContext);
   const loopState = playerState.loopState;
   const zoomState = playerState.zoomState;
@@ -202,6 +201,7 @@ const PlayerConfig: React.FC<{ player: ReactPlayer | null }> = (player) => {
         type: PLAYER_CONFIG_CHANGE,
         state: {
           ...playerState,
+          seeking: true,
           played: newValue,
         },
       });
@@ -209,15 +209,15 @@ const PlayerConfig: React.FC<{ player: ReactPlayer | null }> = (player) => {
   };
 
   const handleSeekMouseUp = (_: any, newValue: number | number[]) => {
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
-        ...playerState,
-        seeking: false,
-      },
-    });
-    if (player instanceof ReactPlayer && typeof newValue === "number") {
-      player.seekTo(newValue);
+    if (typeof newValue === "number") {
+      dispatch({
+        type: PLAYER_CONFIG_CHANGE,
+        state: {
+          ...playerState,
+          seeking: false,
+          seekValue: newValue,
+        },
+      });
     }
   };
 

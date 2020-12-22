@@ -4,6 +4,7 @@ export type PlayerState = {
   url: string;
   playing: boolean;
   seeking: boolean;
+  seekValue: number | null;
   volume: number;
   played: number;
   loaded: number;

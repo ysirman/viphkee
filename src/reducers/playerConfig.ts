@@ -5,6 +5,7 @@ const initialState: PlayerState = {
   url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
   playing: true,
   seeking: false,
+  seekValue: null,
   volume: 0.3,
   played: 0,
   loaded: 0,
