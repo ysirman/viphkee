@@ -1,3 +1,5 @@
+import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
+
 export type PlayerState = {
   url: string;
   playing: boolean;
@@ -28,4 +30,17 @@ export type Progress = {
   playedSeconds: number;
   loaded: number;
   loadedSeconds: number;
+};
+
+const changePlayerConfig = (state: PlayerState) =>
+  ({
+    type: PLAYER_CONFIG_CHANGE,
+    state,
+  } as const);
+
+export type PlayerConfigAction = ReturnType<typeof changePlayerConfig>;
+
+export type PlayerContextType = {
+  playerState: PlayerState;
+  dispatch: (action: PlayerConfigAction) => void;
 };
