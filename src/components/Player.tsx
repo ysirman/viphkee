@@ -6,27 +6,14 @@ import { Progress } from "../Types";
 import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
 import PlayerConfig from "./PlayerConfig";
 
+import { timeToSeconds } from "../utils/formatter";
+
 import Box from "@material-ui/core/Box";
 
 const Player: React.FC = () => {
   const { playerState, dispatch } = useContext(PlayerContext);
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
   const loopState = playerState.loopState;
-
-  const timeToSeconds = (time: string): number => {
-    const timeArray = time.split(":");
-    if (timeArray.length === 2) {
-      return parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
-    }
-    if (timeArray.length === 3) {
-      return (
-        parseInt(timeArray[0]) * 3600 +
-        parseInt(timeArray[1]) * 60 +
-        parseInt(timeArray[2])
-      );
-    }
-    return parseInt(time);
-  };
 
   const handleProgress = (progress: Progress) => {
     // console.log('onProgress', state)
