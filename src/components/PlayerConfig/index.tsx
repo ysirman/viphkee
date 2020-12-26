@@ -3,7 +3,6 @@ import React from "react";
 import PlaybackRate from "./PlaybackRate";
 import LoopRangeSlider from "./LoopRangeSlider";
 import LoopConfig from "./LoopConfig";
-import InputUrl from "./InputUrl";
 
 import Box from "@material-ui/core/Box";
 
@@ -13,7 +12,6 @@ const PlayerConfig: React.FC = () => {
       <PlaybackRate />
       <LoopRangeSlider />
       <LoopConfig />
-      <InputUrl />
     </Box>
   );
 };
