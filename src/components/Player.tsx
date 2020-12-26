@@ -73,6 +73,7 @@ const Player: React.FC = () => {
             ? "calc(100vh - 240px)"
             : "calc((9 / 16) * 100vw)"
         }
+        controls={true}
         url={playerState.url}
         volume={playerState.volume}
         playing={playerState.playing}
