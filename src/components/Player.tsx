@@ -75,7 +75,6 @@ const Player: React.FC = () => {
         }
         controls={true}
         url={playerState.url}
-        volume={playerState.volume}
         playing={playerState.playing}
         playbackRate={playerState.playbackRate}
         onReady={() => console.log("onReady")}

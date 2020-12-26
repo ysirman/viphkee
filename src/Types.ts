@@ -5,7 +5,6 @@ export type PlayerState = {
   playing: boolean;
   seeking: boolean;
   seekValue: number | null;
-  volume: number;
   played: number;
   loaded: number;
   duration: number;

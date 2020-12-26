@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import Volume from "./Volume";
 import PlaybackRate from "./PlaybackRate";
 import SeekSlider from "./SeekSlider";
 import LoopRangeSlider from "./LoopRangeSlider";
@@ -39,7 +38,6 @@ const PlayerConfig: React.FC = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Volume />
           <PlaybackRate />
         </Grid>
       </Box>

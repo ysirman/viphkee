@@ -13,7 +13,6 @@ const App: React.FC = () => {
     playing: true,
     seeking: false,
     seekValue: null,
-    volume: 0.3,
     played: 0,
     loaded: 0,
     duration: 0,
