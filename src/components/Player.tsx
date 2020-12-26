@@ -28,27 +28,14 @@ const Player: React.FC = () => {
         timeToSeconds(loopState.start) / playerState.duration;
       player.seekTo(loopStartRate);
     }
-    // We only want to update time slider if we are not currently seeking
-    if (!playerState.seeking) {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
-          ...playerState,
-          played: progress.played,
-          loaded: progress.loaded,
-        },
-      });
-    }
-    if (playerState.seekValue !== null && player instanceof ReactPlayer) {
-      player.seekTo(playerState.seekValue);
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
-          ...playerState,
-          seekValue: null,
-        },
-      });
-    }
+    dispatch({
+      type: PLAYER_CONFIG_CHANGE,
+      state: {
+        ...playerState,
+        played: progress.played,
+        loaded: progress.loaded,
+      },
+    });
   };
 
   const handleDuration = (duration: number) => {
@@ -80,7 +67,6 @@ const Player: React.FC = () => {
         onReady={() => console.log("onReady")}
         onStart={() => console.log("onStart")}
         onBuffer={() => console.log("onBuffer")}
-        onSeek={(e) => console.log("onSeek", e)}
         onError={(e) => console.log("onError", e)}
         onProgress={(state) => handleProgress(state)}
         onDuration={(state) => handleDuration(state)}

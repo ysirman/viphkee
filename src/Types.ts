@@ -3,8 +3,6 @@ import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
 export type PlayerState = {
   url: string;
   playing: boolean;
-  seeking: boolean;
-  seekValue: number | null;
   played: number;
   loaded: number;
   duration: number;

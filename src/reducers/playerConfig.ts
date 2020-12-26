@@ -4,8 +4,6 @@ import { PlayerState, PlayerConfigAction } from "../Types";
 const initialState: PlayerState = {
   url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
   playing: true,
-  seeking: false,
-  seekValue: null,
   played: 0,
   loaded: 0,
   duration: 0,
