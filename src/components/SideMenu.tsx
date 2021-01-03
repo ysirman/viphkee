@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import PlayList from "./PlayList";
+
 import {
   makeStyles,
   useTheme,
@@ -84,16 +87,7 @@ const SideMenu: React.FC<{
         ))}
       </List>
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <PlayList />
     </Drawer>
   );
 };
