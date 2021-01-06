@@ -1,4 +1,12 @@
+import { CombinedState } from "redux";
 import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
+import { PLAY_LIST_ADD } from "./actions/playList";
+
+export type PlayList = {
+  id: number;
+  videoId: string;
+  videoTitle: string;
+};
 
 export type PlayerState = {
   url: string;
@@ -38,7 +46,25 @@ const changePlayerConfig = (state: PlayerState) =>
 
 export type PlayerConfigAction = ReturnType<typeof changePlayerConfig>;
 
+const addPlayList = (state: PlayList) =>
+  ({
+    type: PLAY_LIST_ADD,
+    state,
+  } as const);
+
+export type PlayListAction = ReturnType<typeof addPlayList>;
+
+export type Action = PlayerConfigAction | PlayListAction;
+
 export type PlayerContextType = {
-  playerState: PlayerState;
-  dispatch: (action: PlayerConfigAction) => void;
+  state: CombinedState<{
+    playerConfig: PlayerState;
+    playList: PlayList | PlayList[] | undefined;
+  }>;
+  dispatch: (action: Action) => void;
 };
+
+export interface State {
+  playList: PlayList[];
+  playerConfig: PlayerState;
+}

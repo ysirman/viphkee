@@ -12,7 +12,8 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 
 const InputUrl: React.FC = () => {
-  const { playerState, dispatch } = useContext(PlayerContext);
+  const { state, dispatch } = useContext(PlayerContext);
+  const playerState = state.playerConfig;
   const inputUrlEl = useRef(document.createElement("input"));
 
   const handleUrlLoadButton = (url: string) => {

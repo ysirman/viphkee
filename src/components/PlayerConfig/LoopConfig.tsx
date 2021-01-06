@@ -16,7 +16,8 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const LoopConfig: React.FC = () => {
-  const { playerState, dispatch } = useContext(PlayerContext);
+  const { state, dispatch } = useContext(PlayerContext);
+  const playerState = state.playerConfig;
   const loopState = playerState.loopState;
   const zoomState = playerState.zoomState;
 

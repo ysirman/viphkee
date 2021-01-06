@@ -1,8 +1,9 @@
 import React, { useState, useReducer } from "react";
 
 import PlayerContext from "../contexts/PlayerContext";
-import reducer from "../reducers/playerConfig";
-import { PlayerState } from "../Types";
+import reducer from "../reducers";
+import { State } from "../Types";
+
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
@@ -40,32 +41,40 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const App: React.FC = () => {
-  const initialState: PlayerState = {
-    url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
-    playing: true,
-    played: 0,
-    loaded: 0,
-    duration: 0,
-    playbackRate: 1.0,
-    loopState: {
-      isLoop: false,
-      start: "0:00",
-      end: "0:00",
-    },
-    zoomState: {
-      isZoom: false,
-      min: 0,
-      max: 100,
+  const initialState: State = {
+    playList: [
+      { id: 1, videoId: "I2_kfNM8iVo", videoTitle: "dummy video title 1" },
+      { id: 2, videoId: "9L1F4r7a83U", videoTitle: "dummy video title 2" },
+      { id: 3, videoId: "v5jo1c_DGTw", videoTitle: "dummy video title 3" },
+      { id: 4, videoId: "m_bp-MqFL40", videoTitle: "dummy video title 4" },
+    ],
+    playerConfig: {
+      url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
+      playing: true,
+      played: 0,
+      loaded: 0,
+      duration: 0,
+      playbackRate: 1.0,
+      loopState: {
+        isLoop: false,
+        start: "0:00",
+        end: "0:00",
+      },
+      zoomState: {
+        isZoom: false,
+        min: 0,
+        max: 100,
+      },
     },
   };
-  const [playerState, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   return (
     <div className={classes.root}>
-      <PlayerContext.Provider value={{ playerState, dispatch }}>
+      <PlayerContext.Provider value={{ state, dispatch }}>
         <CssBaseline />
         <HeaderMenu open={open} setOpen={setOpen} />
         <SideMenu open={open} setOpen={setOpen} />

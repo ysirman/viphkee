@@ -8,7 +8,8 @@ import { secondsToTime, timeToSeconds } from "../../utils/formatter";
 import Slider from "@material-ui/core/Slider";
 
 const LoopRangeSlider: React.FC = () => {
-  const { playerState, dispatch } = useContext(PlayerContext);
+  const { state, dispatch } = useContext(PlayerContext);
+  const playerState = state.playerConfig;
   const loopState = playerState.loopState;
   const zoomState = playerState.zoomState;
 

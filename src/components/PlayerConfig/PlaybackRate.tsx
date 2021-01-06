@@ -9,7 +9,8 @@ import Grid from "@material-ui/core/Grid";
 import FastForwardIcon from "@material-ui/icons/FastForward";
 
 const PlaybackRate: React.FC = () => {
-  const { playerState, dispatch } = useContext(PlayerContext);
+  const { state, dispatch } = useContext(PlayerContext);
+  const playerState = state.playerConfig;
 
   const handlePlaybackRate = (_: any, rate: number | number[]) => {
     if (typeof rate === "number") {

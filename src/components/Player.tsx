@@ -11,8 +11,9 @@ import { timeToSeconds } from "../utils/formatter";
 import Box from "@material-ui/core/Box";
 
 const Player: React.FC = () => {
-  const { playerState, dispatch } = useContext(PlayerContext);
+  const { state, dispatch } = useContext(PlayerContext);
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
+  const playerState = state.playerConfig;
   const loopState = playerState.loopState;
 
   const handleProgress = (progress: Progress) => {
