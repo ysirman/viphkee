@@ -1,8 +1,8 @@
 import { PLAY_LIST_ADD } from "../actions/playList";
-import { PlayList, PlayListAction } from "../Types";
+import { PlayListType, PlayListAction } from "../Types";
 
 const playList = (
-  state: PlayList | PlayList[] | undefined = [],
+  state: PlayListType | PlayListType[] | undefined = [],
   action: PlayListAction
 ) => {
   switch (action.type) {

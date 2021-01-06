@@ -10,14 +10,14 @@ import FastForwardIcon from "@material-ui/icons/FastForward";
 
 const PlaybackRate: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
-  const playerState = state.playerConfig;
+  const playerConfig = state.playerConfig;
 
   const handlePlaybackRate = (_: any, rate: number | number[]) => {
     if (typeof rate === "number") {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           playbackRate: rate,
         },
       });
@@ -42,7 +42,7 @@ const PlaybackRate: React.FC = () => {
           ]}
           valueLabelDisplay={"auto"}
           color={"secondary"}
-          value={playerState.playbackRate}
+          value={playerConfig.playbackRate}
           onChange={handlePlaybackRate}
         />
       </Grid>

@@ -2,43 +2,43 @@ import { CombinedState } from "redux";
 import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
 import { PLAY_LIST_ADD } from "./actions/playList";
 
-export type PlayList = {
+export type PlayListType = {
   id: number;
   videoId: string;
   videoTitle: string;
 };
 
-export type PlayerState = {
+export type PlayerConfigType = {
   url: string;
   playing: boolean;
   played: number;
   loaded: number;
   duration: number;
   playbackRate: number;
-  loopState: LoopState;
-  zoomState: ZoomState;
+  loopState: LoopStateType;
+  zoomState: ZoomStateType;
 };
 
-export type LoopState = {
+export type LoopStateType = {
   isLoop: boolean;
   start: string;
   end: string;
 };
 
-export type ZoomState = {
+export type ZoomStateType = {
   isZoom: boolean;
   min: number;
   max: number;
 };
 
-export type Progress = {
+export type ProgressType = {
   played: number;
   playedSeconds: number;
   loaded: number;
   loadedSeconds: number;
 };
 
-const changePlayerConfig = (state: PlayerState) =>
+const changePlayerConfig = (state: PlayerConfigType) =>
   ({
     type: PLAYER_CONFIG_CHANGE,
     state,
@@ -46,7 +46,7 @@ const changePlayerConfig = (state: PlayerState) =>
 
 export type PlayerConfigAction = ReturnType<typeof changePlayerConfig>;
 
-const addPlayList = (state: PlayList) =>
+const addPlayList = (state: PlayListType) =>
   ({
     type: PLAY_LIST_ADD,
     state,
@@ -58,13 +58,13 @@ export type Action = PlayerConfigAction | PlayListAction;
 
 export type PlayerContextType = {
   state: CombinedState<{
-    playerConfig: PlayerState;
-    playList: PlayList | PlayList[] | undefined;
+    playerConfig: PlayerConfigType;
+    playList: PlayListType | PlayListType[] | undefined;
   }>;
   dispatch: (action: Action) => void;
 };
 
 export interface State {
-  playList: PlayList[];
-  playerConfig: PlayerState;
+  playList: PlayListType[];
+  playerConfig: PlayerConfigType;
 }

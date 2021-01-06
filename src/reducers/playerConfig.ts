@@ -1,7 +1,7 @@
 import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
-import { PlayerState, PlayerConfigAction } from "../Types";
+import { PlayerConfigType, PlayerConfigAction } from "../Types";
 
-const initialState: PlayerState = {
+const initialState: PlayerConfigType = {
   url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
   playing: true,
   played: 0,
@@ -21,7 +21,7 @@ const initialState: PlayerState = {
 };
 
 const playerConfig = (
-  state: PlayerState = initialState,
+  state: PlayerConfigType = initialState,
   action: PlayerConfigAction
 ) => {
   switch (action.type) {

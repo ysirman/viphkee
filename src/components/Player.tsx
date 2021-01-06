@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ReactPlayer from "react-player";
 
 import PlayerContext from "../contexts/PlayerContext";
-import { Progress } from "../Types";
+import { ProgressType } from "../Types";
 import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
 import PlayerConfig from "./PlayerConfig";
 
@@ -13,12 +13,12 @@ import Box from "@material-ui/core/Box";
 const Player: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
   const [player, setPlayer] = useState<ReactPlayer | null>(null);
-  const playerState = state.playerConfig;
-  const loopState = playerState.loopState;
+  const playerConfig = state.playerConfig;
+  const loopState = playerConfig.loopState;
 
-  const handleProgress = (progress: Progress) => {
+  const handleProgress = (progress: ProgressType) => {
     // console.log('onProgress', state)
-    const loopEndRate = timeToSeconds(loopState.end) / playerState.duration;
+    const loopEndRate = timeToSeconds(loopState.end) / playerConfig.duration;
     if (
       loopState.isLoop === true &&
       progress.played > loopEndRate &&
@@ -26,13 +26,13 @@ const Player: React.FC = () => {
     ) {
       console.log("LOOP!!");
       const loopStartRate =
-        timeToSeconds(loopState.start) / playerState.duration;
+        timeToSeconds(loopState.start) / playerConfig.duration;
       player.seekTo(loopStartRate);
     }
     dispatch({
       type: PLAYER_CONFIG_CHANGE,
       state: {
-        ...playerState,
+        ...playerConfig,
         played: progress.played,
         loaded: progress.loaded,
       },
@@ -44,7 +44,7 @@ const Player: React.FC = () => {
     dispatch({
       type: PLAYER_CONFIG_CHANGE,
       state: {
-        ...playerState,
+        ...playerConfig,
         duration: duration,
       },
     });
@@ -62,9 +62,9 @@ const Player: React.FC = () => {
             : "calc((9 / 16) * 100vw)"
         }
         controls={true}
-        url={playerState.url}
-        playing={playerState.playing}
-        playbackRate={playerState.playbackRate}
+        url={playerConfig.url}
+        playing={playerConfig.playing}
+        playbackRate={playerConfig.playbackRate}
         onReady={() => console.log("onReady")}
         onStart={() => console.log("onStart")}
         onBuffer={() => console.log("onBuffer")}

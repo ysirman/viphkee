@@ -17,9 +17,9 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const LoopConfig: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
-  const playerState = state.playerConfig;
-  const loopState = playerState.loopState;
-  const zoomState = playerState.zoomState;
+  const playerConfig = state.playerConfig;
+  const loopState = playerConfig.loopState;
+  const zoomState = playerConfig.zoomState;
 
   const handleLooping = () => {
     if (validateHHMMSS(loopState.start)) {
@@ -31,7 +31,7 @@ const LoopConfig: React.FC = () => {
     dispatch({
       type: PLAYER_CONFIG_CHANGE,
       state: {
-        ...playerState,
+        ...playerConfig,
         loopState: { ...loopState, isLoop: !loopState.isLoop },
       },
     });
@@ -45,7 +45,7 @@ const LoopConfig: React.FC = () => {
     dispatch({
       type: PLAYER_CONFIG_CHANGE,
       state: {
-        ...playerState,
+        ...playerConfig,
         loopState: { ...loopState, start: loopStart },
       },
     });
@@ -59,7 +59,7 @@ const LoopConfig: React.FC = () => {
     dispatch({
       type: PLAYER_CONFIG_CHANGE,
       state: {
-        ...playerState,
+        ...playerConfig,
         loopState: { ...loopState, end: loopEnd },
       },
     });
@@ -68,13 +68,13 @@ const LoopConfig: React.FC = () => {
   const handleZooming = (_: any) => {
     if (zoomState.isZoom === false && loopState.end !== "0:00") {
       const min =
-        (timeToSeconds(loopState.start) / playerState.duration) * 100 - 5;
+        (timeToSeconds(loopState.start) / playerConfig.duration) * 100 - 5;
       const max =
-        (timeToSeconds(loopState.end) / playerState.duration) * 100 + 5;
+        (timeToSeconds(loopState.end) / playerConfig.duration) * 100 + 5;
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           zoomState: {
             isZoom: true,
             min: min < 0 ? 0 : min,
@@ -86,7 +86,7 @@ const LoopConfig: React.FC = () => {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           zoomState: { ...zoomState, isZoom: false },
         },
       });
@@ -99,7 +99,7 @@ const LoopConfig: React.FC = () => {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           loopState: { ...loopState, start: secondsToTime(newStartValue) },
         },
       });
@@ -109,13 +109,13 @@ const LoopConfig: React.FC = () => {
   const handleLoopEndUpDown = (plusOrMinus: number) => {
     const newEndValue = timeToSeconds(loopState.end) + 1 * plusOrMinus;
     if (
-      newEndValue <= playerState.duration &&
+      newEndValue <= playerConfig.duration &&
       newEndValue > timeToSeconds(loopState.start)
     ) {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           loopState: { ...loopState, end: secondsToTime(newEndValue) },
         },
       });

@@ -9,16 +9,16 @@ import Slider from "@material-ui/core/Slider";
 
 const LoopRangeSlider: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
-  const playerState = state.playerConfig;
-  const loopState = playerState.loopState;
-  const zoomState = playerState.zoomState;
+  const playerConfig = state.playerConfig;
+  const loopState = playerConfig.loopState;
+  const zoomState = playerConfig.zoomState;
 
   const loopMarks = [
     { value: 0, label: secondsToTime(0) },
-    { value: 25, label: secondsToTime(playerState.duration * 0.25) },
-    { value: 50, label: secondsToTime(playerState.duration * 0.5) },
-    { value: 75, label: secondsToTime(playerState.duration * 0.75) },
-    { value: 100, label: secondsToTime(playerState.duration) },
+    { value: 25, label: secondsToTime(playerConfig.duration * 0.25) },
+    { value: 50, label: secondsToTime(playerConfig.duration * 0.5) },
+    { value: 75, label: secondsToTime(playerConfig.duration * 0.75) },
+    { value: 100, label: secondsToTime(playerConfig.duration) },
   ];
 
   const zoomMarks = () => {
@@ -26,30 +26,30 @@ const LoopRangeSlider: React.FC = () => {
     return [
       {
         value: zoomState.min,
-        label: secondsToTime((playerState.duration * zoomState.min) / 100),
+        label: secondsToTime((playerConfig.duration * zoomState.min) / 100),
       },
       {
         value: zoomState.min + zoomMarksBaseValue,
         label: secondsToTime(
-          (playerState.duration * (zoomState.min + zoomMarksBaseValue)) / 100
+          (playerConfig.duration * (zoomState.min + zoomMarksBaseValue)) / 100
         ),
       },
       {
         value: zoomState.min + zoomMarksBaseValue * 2,
         label: secondsToTime(
-          (playerState.duration * (zoomState.min + zoomMarksBaseValue * 2)) /
+          (playerConfig.duration * (zoomState.min + zoomMarksBaseValue * 2)) /
             100
         ),
       },
       {
         value: zoomState.max - zoomMarksBaseValue,
         label: secondsToTime(
-          (playerState.duration * (zoomState.max - zoomMarksBaseValue)) / 100
+          (playerConfig.duration * (zoomState.max - zoomMarksBaseValue)) / 100
         ),
       },
       {
         value: zoomState.max,
-        label: secondsToTime((playerState.duration * zoomState.max) / 100),
+        label: secondsToTime((playerConfig.duration * zoomState.max) / 100),
       },
     ];
   };
@@ -59,11 +59,11 @@ const LoopRangeSlider: React.FC = () => {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           loopState: {
             ...loopState,
-            start: secondsToTime((newValue[0] / 100) * playerState.duration),
-            end: secondsToTime((newValue[1] / 100) * playerState.duration),
+            start: secondsToTime((newValue[0] / 100) * playerConfig.duration),
+            end: secondsToTime((newValue[1] / 100) * playerConfig.duration),
           },
         },
       });
@@ -78,20 +78,20 @@ const LoopRangeSlider: React.FC = () => {
         step={0.0000000001}
         color={zoomState.isZoom ? "secondary" : "primary"}
         value={[
-          (timeToSeconds(loopState.start) / playerState.duration) * 100,
-          (timeToSeconds(loopState.end) / playerState.duration) * 100,
+          (timeToSeconds(loopState.start) / playerConfig.duration) * 100,
+          (timeToSeconds(loopState.end) / playerConfig.duration) * 100,
         ]}
         getAriaLabel={(index) =>
           index === 0 ? "Start loop time" : "End loop time"
         }
         defaultValue={[
-          (timeToSeconds(loopState.start) / playerState.duration) * 100,
-          (timeToSeconds(loopState.end) / playerState.duration) * 100,
+          (timeToSeconds(loopState.start) / playerConfig.duration) * 100,
+          (timeToSeconds(loopState.end) / playerConfig.duration) * 100,
         ]}
         marks={zoomState.isZoom ? zoomMarks() : loopMarks}
         valueLabelDisplay={"auto"}
         valueLabelFormat={(v) =>
-          secondsToTime((v / 100) * playerState.duration)
+          secondsToTime((v / 100) * playerConfig.duration)
         }
         onChange={handleChangeLoopRange}
       />

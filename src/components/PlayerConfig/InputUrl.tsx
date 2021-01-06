@@ -13,7 +13,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 const InputUrl: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
-  const playerState = state.playerConfig;
+  const playerConfig = state.playerConfig;
   const inputUrlEl = useRef(document.createElement("input"));
 
   const handleUrlLoadButton = (url: string) => {
@@ -21,7 +21,7 @@ const InputUrl: React.FC = () => {
       dispatch({
         type: PLAYER_CONFIG_CHANGE,
         state: {
-          ...playerState,
+          ...playerConfig,
           url: url,
         },
       });
