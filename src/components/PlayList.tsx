@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import PlayerContext from "../contexts/PlayerContext";
+import { PlayListType } from "../Types";
 
 import PlayListItem from "./PlayListItem";
 
 import List from "@material-ui/core/List";
 
 const PlayList: React.FC = () => {
+  const { state } = useContext(PlayerContext);
+  const playList = state.playList as PlayListType[];
   return (
     <List>
-      {["I2_kfNM8iVo", "9L1F4r7a83U", "v5jo1c_DGTw", "m_bp-MqFL40"].map(
-        (id, index) => (
-          <PlayListItem key={index} videoId={id} />
-        )
-      )}
+      {playList.map((playListItem, index) => (
+        <PlayListItem key={index} playListItem={playListItem} />
+      ))}
     </List>
   );
 };

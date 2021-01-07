@@ -6,6 +6,8 @@ export type PlayListType = {
   id: number;
   videoId: string;
   videoTitle: string;
+  loopStart: string;
+  loopEnd: string;
 };
 
 export type PlayerConfigType = {

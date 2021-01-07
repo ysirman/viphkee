@@ -43,10 +43,34 @@ const useStyles = makeStyles((theme: Theme) =>
 const App: React.FC = () => {
   const initialState: State = {
     playList: [
-      { id: 1, videoId: "I2_kfNM8iVo", videoTitle: "dummy video title 1" },
-      { id: 2, videoId: "9L1F4r7a83U", videoTitle: "dummy video title 2" },
-      { id: 3, videoId: "v5jo1c_DGTw", videoTitle: "dummy video title 3" },
-      { id: 4, videoId: "m_bp-MqFL40", videoTitle: "dummy video title 4" },
+      {
+        id: 1,
+        videoId: "I2_kfNM8iVo",
+        videoTitle: "dummy video title 1",
+        loopStart: "0:10",
+        loopEnd: "0:20",
+      },
+      {
+        id: 2,
+        videoId: "9L1F4r7a83U",
+        videoTitle: "dummy video title 2",
+        loopStart: "0:20",
+        loopEnd: "0:30",
+      },
+      {
+        id: 3,
+        videoId: "v5jo1c_DGTw",
+        videoTitle: "dummy video title 3",
+        loopStart: "0:30",
+        loopEnd: "0:40",
+      },
+      {
+        id: 4,
+        videoId: "m_bp-MqFL40",
+        videoTitle: "dummy video title 4",
+        loopStart: "0:40",
+        loopEnd: "0:50",
+      },
     ],
     playerConfig: {
       url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",

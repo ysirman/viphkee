@@ -48,6 +48,10 @@ const Player: React.FC = () => {
         duration: duration,
       },
     });
+    if (loopState.isLoop === true && player instanceof ReactPlayer) {
+      const loopStartRate = timeToSeconds(loopState.start) / duration;
+      player.seekTo(loopStartRate);
+    }
   };
 
   return (
