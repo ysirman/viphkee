@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import PlayList from "./PlayList";
 
@@ -90,11 +89,6 @@ const SideMenu: React.FC<{
       <PlayList />
     </Drawer>
   );
-};
-
-SideMenu.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
 };
 
 export default SideMenu;

@@ -3,11 +3,11 @@ env:
   es2021: true
   jest/globals: true
 extends:
-  - 'plugin:react/recommended'
+  - "plugin:react/recommended"
   - standard
-  - 'plugin:prettier/recommended'
-  - 'prettier/@typescript-eslint'
-parser: '@typescript-eslint/parser'
+  - "plugin:prettier/recommended"
+  - "prettier/@typescript-eslint"
+parser: "@typescript-eslint/parser"
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -15,14 +15,16 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-  - '@typescript-eslint'
+  - "@typescript-eslint"
   - jest
   - prettier
-rules: {
-  'no-use-before-define': 'off',
-  '@typescript-eslint/no-use-before-define': ['error'],
-  'prettier/prettier': 'error'
-}
+rules:
+  {
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "prettier/prettier": "error",
+    "react/prop-types": "off",
+  }
 settings:
   react:
     version: detect

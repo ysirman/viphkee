@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
@@ -18,7 +17,3 @@ const PlayListItem: React.FC<{ videoId: string }> = ({ videoId }) => {
   );
 };
 export default PlayListItem;
-
-PlayListItem.propTypes = {
-  videoId: PropTypes.string.isRequired,
-};

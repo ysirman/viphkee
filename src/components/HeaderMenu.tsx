@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import InputUrl from "./PlayerConfig/InputUrl";
 
@@ -73,11 +72,6 @@ const HeaderMenu: React.FC<{
       </Toolbar>
     </AppBar>
   );
-};
-
-HeaderMenu.propTypes = {
-  open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
 };
 
 export default HeaderMenu;
