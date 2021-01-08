@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { PlayListType } from "../Types";
 
 import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
+import { PLAY_LIST_SELECT } from "../actions/playList";
 import PlayerContext from "../contexts/PlayerContext";
 
 import { youtubeUrl, youtubeImgUrl } from "../utils/youtubeUrls";
@@ -26,6 +27,13 @@ const PlayListItem: React.FC<{ playListItem: PlayListType }> = ({
           start: playListItem.loopStart,
           end: playListItem.loopEnd,
         },
+      },
+    });
+    dispatch({
+      type: PLAY_LIST_SELECT,
+      state: {
+        ...playListItem,
+        isSelected: true,
       },
     });
   };

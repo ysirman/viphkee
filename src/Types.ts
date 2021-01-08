@@ -1,6 +1,10 @@
 import { CombinedState } from "redux";
 import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
-import { PLAY_LIST_ADD } from "./actions/playList";
+import {
+  PLAY_LIST_ADD,
+  PLAY_LIST_UPDATE,
+  PLAY_LIST_SELECT,
+} from "./actions/playList";
 
 export type PlayListType = {
   id: number;
@@ -8,6 +12,7 @@ export type PlayListType = {
   videoTitle: string;
   loopStart: string;
   loopEnd: string;
+  isSelected: boolean;
 };
 
 export type PlayerConfigType = {
@@ -54,7 +59,22 @@ const addPlayList = (state: PlayListType) =>
     state,
   } as const);
 
-export type PlayListAction = ReturnType<typeof addPlayList>;
+const updatePlayList = (state: PlayListType) =>
+  ({
+    type: PLAY_LIST_UPDATE,
+    state,
+  } as const);
+
+const selectPlayList = (state: PlayListType) =>
+  ({
+    type: PLAY_LIST_SELECT,
+    state,
+  } as const);
+
+export type PlayListAction =
+  | ReturnType<typeof addPlayList>
+  | ReturnType<typeof updatePlayList>
+  | ReturnType<typeof selectPlayList>;
 
 export type Action = PlayerConfigAction | PlayListAction;
 

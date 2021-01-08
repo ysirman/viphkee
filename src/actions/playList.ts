@@ -1,1 +1,3 @@
 export const PLAY_LIST_ADD = "PLAY_LIST_ADD";
+export const PLAY_LIST_UPDATE = "PLAY_LIST_UPDATE";
+export const PLAY_LIST_SELECT = "PLAY_LIST_SELECT";

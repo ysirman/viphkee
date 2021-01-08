@@ -1,14 +1,16 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 
 import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
 import { State } from "../Types";
 
-import { PLAY_LIST_ADD } from "../actions/playList";
+import { PLAY_LIST_ADD, PLAY_LIST_UPDATE } from "../actions/playList";
 
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
+
+import { youtubeUrl } from "../utils/youtubeUrls";
 
 import clsx from "clsx";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
@@ -18,6 +20,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
+import CachedIcon from "@material-ui/icons/Cached";
 
 const drawerWidth = 240;
 
@@ -54,6 +57,7 @@ const App: React.FC = () => {
         videoTitle: "dummy video title 1",
         loopStart: "0:10",
         loopEnd: "0:20",
+        isSelected: false,
       },
       {
         id: 2,
@@ -61,6 +65,7 @@ const App: React.FC = () => {
         videoTitle: "dummy video title 2",
         loopStart: "0:20",
         loopEnd: "0:30",
+        isSelected: true,
       },
       {
         id: 3,
@@ -68,6 +73,7 @@ const App: React.FC = () => {
         videoTitle: "dummy video title 3",
         loopStart: "0:30",
         loopEnd: "0:40",
+        isSelected: false,
       },
       {
         id: 4,
@@ -75,10 +81,11 @@ const App: React.FC = () => {
         videoTitle: "dummy video title 4",
         loopStart: "0:40",
         loopEnd: "0:50",
+        isSelected: false,
       },
     ],
     playerConfig: {
-      url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
+      url: "",
       playing: true,
       played: 0,
       loaded: 0,
@@ -96,18 +103,43 @@ const App: React.FC = () => {
       },
     },
   };
+
+  useEffect(() => {
+    const currentItem = initialState.playList.filter(
+      (playListItem) => playListItem.isSelected === true
+    )[0];
+    initialState.playerConfig.url = youtubeUrl(currentItem.videoId);
+    initialState.playerConfig.loopState.start = currentItem.loopStart;
+    initialState.playerConfig.loopState.end = currentItem.loopEnd;
+  }, []);
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const playerConfig = state.playerConfig;
+  const playList = state.playList;
 
   const handleAddButton = () => {
-    const videoId = new URL(playerConfig.url).searchParams.get("v");
     dispatch({
       type: PLAY_LIST_ADD,
       state: {
-        videoId: videoId,
+        videoId: new URL(playerConfig.url).searchParams.get("v"),
+        videoTitle: "dummy video title",
+        loopStart: playerConfig.loopState.start,
+        loopEnd: playerConfig.loopState.end,
+      },
+    });
+  };
+
+  const handleUpdateButton = () => {
+    if (playList.length === 0) {
+      handleAddButton();
+    }
+    dispatch({
+      type: PLAY_LIST_UPDATE,
+      state: {
+        videoId: new URL(playerConfig.url).searchParams.get("v"),
         videoTitle: "dummy video title",
         loopStart: playerConfig.loopState.start,
         loopEnd: playerConfig.loopState.end,
@@ -136,6 +168,13 @@ const App: React.FC = () => {
               onClick={handleAddButton}
             >
               <PlaylistAddIcon /> Add
+            </Button>
+            <Button
+              variant="contained"
+              color="default"
+              onClick={handleUpdateButton}
+            >
+              <CachedIcon /> Update
             </Button>
           </Box>
         </main>

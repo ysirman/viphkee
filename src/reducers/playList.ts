@@ -1,4 +1,8 @@
-import { PLAY_LIST_ADD } from "../actions/playList";
+import {
+  PLAY_LIST_ADD,
+  PLAY_LIST_UPDATE,
+  PLAY_LIST_SELECT,
+} from "../actions/playList";
 import { PlayListType, PlayListAction } from "../Types";
 
 const validateDuplication = (state: PlayListType, action: PlayListType) => {
@@ -21,10 +25,43 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
         validateDuplication(playListItem, action.state)
       );
       if (filterdState.length === 0) {
-        return [...state, { ...action.state, id: id }];
+        if (state.length !== 0) {
+          state.filter(
+            (playListItem) => playListItem.isSelected === true
+          )[0].isSelected = false;
+        }
+        return [...state, { ...action.state, id: id, isSelected: true }];
       }
       return state;
     }
+
+    case PLAY_LIST_UPDATE: {
+      const filterdState = state.filter(
+        (playListItem) => playListItem.isSelected === false
+      );
+      const currentId = state.filter(
+        (playListItem) => playListItem.isSelected === true
+      )[0].id;
+      return [
+        ...filterdState,
+        { ...action.state, id: currentId, isSelected: true },
+      ].sort((a, b) => {
+        return a.id - b.id;
+      });
+    }
+
+    case PLAY_LIST_SELECT: {
+      state.filter(
+        (playListItem) => playListItem.isSelected === true
+      )[0].isSelected = false;
+      state.filter(
+        (playListItem) => playListItem.id === action.state.id
+      )[0].isSelected = true;
+      return state.sort((a, b) => {
+        return a.id - b.id;
+      });
+    }
+
     default:
       return state;
   }
