@@ -2,6 +2,7 @@ import {
   PLAY_LIST_ADD,
   PLAY_LIST_UPDATE,
   PLAY_LIST_SELECT,
+  PLAY_LIST_DELETE,
 } from "../actions/playList";
 import { PlayListType, PlayListAction } from "../Types";
 
@@ -51,9 +52,14 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
     }
 
     case PLAY_LIST_SELECT: {
-      state.filter(
+      const current = state.filter(
         (playListItem) => playListItem.isSelected === true
-      )[0].isSelected = false;
+      );
+      if (current.length !== 0) {
+        state.filter(
+          (playListItem) => playListItem.isSelected === true
+        )[0].isSelected = false;
+      }
       state.filter(
         (playListItem) => playListItem.id === action.state.id
       )[0].isSelected = true;
@@ -61,6 +67,9 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
         return a.id - b.id;
       });
     }
+
+    case PLAY_LIST_DELETE:
+      return state.filter((playListItem) => playListItem.isSelected === false);
 
     default:
       return state;

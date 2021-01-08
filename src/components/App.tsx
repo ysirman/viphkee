@@ -4,7 +4,12 @@ import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
 import { State } from "../Types";
 
-import { PLAY_LIST_ADD, PLAY_LIST_UPDATE } from "../actions/playList";
+import { PLAYER_CONFIG_RESET } from "../actions/playerConfig";
+import {
+  PLAY_LIST_ADD,
+  PLAY_LIST_UPDATE,
+  PLAY_LIST_DELETE,
+} from "../actions/playList";
 
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
@@ -21,6 +26,7 @@ import Button from "@material-ui/core/Button";
 
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import CachedIcon from "@material-ui/icons/Cached";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const drawerWidth = 240;
 
@@ -147,6 +153,15 @@ const App: React.FC = () => {
     });
   };
 
+  const handleDeleteButton = () => {
+    dispatch({
+      type: PLAYER_CONFIG_RESET,
+    });
+    dispatch({
+      type: PLAY_LIST_DELETE,
+    });
+  };
+
   return (
     <div className={classes.root}>
       <PlayerContext.Provider value={{ state, dispatch }}>
@@ -175,6 +190,13 @@ const App: React.FC = () => {
               onClick={handleUpdateButton}
             >
               <CachedIcon /> Update
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDeleteButton}
+            >
+              <DeleteIcon /> Delete
             </Button>
           </Box>
         </main>

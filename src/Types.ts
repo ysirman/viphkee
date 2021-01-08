@@ -1,9 +1,13 @@
 import { CombinedState } from "redux";
-import { PLAYER_CONFIG_CHANGE } from "./actions/playerConfig";
+import {
+  PLAYER_CONFIG_CHANGE,
+  PLAYER_CONFIG_RESET,
+} from "./actions/playerConfig";
 import {
   PLAY_LIST_ADD,
   PLAY_LIST_UPDATE,
   PLAY_LIST_SELECT,
+  PLAY_LIST_DELETE,
 } from "./actions/playList";
 
 export type PlayListType = {
@@ -51,7 +55,15 @@ const changePlayerConfig = (state: PlayerConfigType) =>
     state,
   } as const);
 
-export type PlayerConfigAction = ReturnType<typeof changePlayerConfig>;
+const resetPlayerConfig = (state: PlayerConfigType) =>
+  ({
+    type: PLAYER_CONFIG_RESET,
+    state,
+  } as const);
+
+export type PlayerConfigAction =
+  | ReturnType<typeof changePlayerConfig>
+  | ReturnType<typeof resetPlayerConfig>;
 
 const addPlayList = (state: PlayListType) =>
   ({
@@ -71,10 +83,17 @@ const selectPlayList = (state: PlayListType) =>
     state,
   } as const);
 
+const deletePlayList = (state: PlayListType) =>
+  ({
+    type: PLAY_LIST_DELETE,
+    state,
+  } as const);
+
 export type PlayListAction =
   | ReturnType<typeof addPlayList>
   | ReturnType<typeof updatePlayList>
-  | ReturnType<typeof selectPlayList>;
+  | ReturnType<typeof selectPlayList>
+  | ReturnType<typeof deletePlayList>;
 
 export type Action = PlayerConfigAction | PlayListAction;
 

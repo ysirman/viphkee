@@ -1,8 +1,11 @@
-import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
+import {
+  PLAYER_CONFIG_CHANGE,
+  PLAYER_CONFIG_RESET,
+} from "../actions/playerConfig";
 import { PlayerConfigType, PlayerConfigAction } from "../Types";
 
 const initialState: PlayerConfigType = {
-  url: "https://www.youtube.com/watch?v=I2_kfNM8iVo",
+  url: "",
   playing: true,
   played: 0,
   loaded: 0,
@@ -27,6 +30,10 @@ const playerConfig = (
   switch (action.type) {
     case PLAYER_CONFIG_CHANGE:
       return action.state;
+
+    case PLAYER_CONFIG_RESET:
+      return initialState;
+
     default:
       return state;
   }
