@@ -6,7 +6,7 @@ import playList from "./playList";
 
 export default combineReducers<{
   playerConfig: PlayerConfigType;
-  playList: PlayListType | PlayListType[] | undefined;
+  playList: PlayListType[];
 }>({
   playerConfig,
   playList,

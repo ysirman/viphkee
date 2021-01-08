@@ -4,6 +4,8 @@ import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
 import { State } from "../Types";
 
+import { PLAY_LIST_ADD } from "../actions/playList";
+
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
@@ -13,6 +15,9 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+
+import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 
 const drawerWidth = 240;
 
@@ -95,6 +100,20 @@ const App: React.FC = () => {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const playerConfig = state.playerConfig;
+
+  const handleAddButton = () => {
+    const videoId = new URL(playerConfig.url).searchParams.get("v");
+    dispatch({
+      type: PLAY_LIST_ADD,
+      state: {
+        videoId: videoId,
+        videoTitle: "dummy video title",
+        loopStart: playerConfig.loopState.start,
+        loopEnd: playerConfig.loopState.end,
+      },
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -109,6 +128,15 @@ const App: React.FC = () => {
         >
           <Box mt={"64px"}>
             <Player />
+          </Box>
+          <Box display="flex" justifyContent="center" mb={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddButton}
+            >
+              <PlaylistAddIcon /> Add
+            </Button>
           </Box>
         </main>
       </PlayerContext.Provider>

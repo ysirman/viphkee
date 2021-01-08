@@ -61,7 +61,7 @@ export type Action = PlayerConfigAction | PlayListAction;
 export type PlayerContextType = {
   state: CombinedState<{
     playerConfig: PlayerConfigType;
-    playList: PlayListType | PlayListType[] | undefined;
+    playList: PlayListType[];
   }>;
   dispatch: (action: Action) => void;
 };
