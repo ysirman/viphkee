@@ -4,16 +4,10 @@ import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
 import { State } from "../Types";
 
-import { PLAYER_CONFIG_RESET } from "../actions/playerConfig";
-import {
-  PLAY_LIST_ADD,
-  PLAY_LIST_UPDATE,
-  PLAY_LIST_DELETE,
-} from "../actions/playList";
-
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
+import PlayListForm from "./PlayListForm";
 
 import { youtubeUrl } from "../utils/youtubeUrls";
 
@@ -22,11 +16,6 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-
-import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
-import CachedIcon from "@material-ui/icons/Cached";
-import DeleteIcon from "@material-ui/icons/Delete";
 
 const drawerWidth = 240;
 
@@ -123,44 +112,6 @@ const App: React.FC = () => {
 
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const playerConfig = state.playerConfig;
-  const playList = state.playList;
-
-  const handleAddButton = () => {
-    dispatch({
-      type: PLAY_LIST_ADD,
-      state: {
-        videoId: new URL(playerConfig.url).searchParams.get("v"),
-        videoTitle: "dummy video title",
-        loopStart: playerConfig.loopState.start,
-        loopEnd: playerConfig.loopState.end,
-      },
-    });
-  };
-
-  const handleUpdateButton = () => {
-    if (playList.length === 0) {
-      handleAddButton();
-    }
-    dispatch({
-      type: PLAY_LIST_UPDATE,
-      state: {
-        videoId: new URL(playerConfig.url).searchParams.get("v"),
-        videoTitle: "dummy video title",
-        loopStart: playerConfig.loopState.start,
-        loopEnd: playerConfig.loopState.end,
-      },
-    });
-  };
-
-  const handleDeleteButton = () => {
-    dispatch({
-      type: PLAYER_CONFIG_RESET,
-    });
-    dispatch({
-      type: PLAY_LIST_DELETE,
-    });
-  };
 
   return (
     <div className={classes.root}>
@@ -176,29 +127,7 @@ const App: React.FC = () => {
           <Box mt={"64px"}>
             <Player />
           </Box>
-          <Box display="flex" justifyContent="center" mb={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleAddButton}
-            >
-              <PlaylistAddIcon /> Add
-            </Button>
-            <Button
-              variant="contained"
-              color="default"
-              onClick={handleUpdateButton}
-            >
-              <CachedIcon /> Update
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleDeleteButton}
-            >
-              <DeleteIcon /> Delete
-            </Button>
-          </Box>
+          <PlayListForm />
         </main>
       </PlayerContext.Provider>
     </div>

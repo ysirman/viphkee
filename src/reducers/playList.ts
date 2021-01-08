@@ -17,11 +17,19 @@ const validateDuplication = (state: PlayListType, action: PlayListType) => {
   return false;
 };
 
+const maxId = (state: PlayListType[]) => {
+  return Math.max.apply(
+    null,
+    state.map((playListItem) => {
+      return playListItem.id;
+    })
+  );
+};
+
 const playList = (state: PlayListType[] = [], action: PlayListAction) => {
   switch (action.type) {
     case PLAY_LIST_ADD: {
-      const length = state.length;
-      const id = length === 0 ? 1 : state[length - 1].id + 1;
+      const id = maxId(state) + 1;
       const filterdState = state.filter((playListItem) =>
         validateDuplication(playListItem, action.state)
       );
@@ -31,7 +39,7 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
             (playListItem) => playListItem.isSelected === true
           )[0].isSelected = false;
         }
-        return [...state, { ...action.state, id: id, isSelected: true }];
+        return [...state, { ...action.state, id }];
       }
       return state;
     }
@@ -40,13 +48,10 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
       const filterdState = state.filter(
         (playListItem) => playListItem.isSelected === false
       );
-      const currentId = state.filter(
+      const id = state.filter(
         (playListItem) => playListItem.isSelected === true
       )[0].id;
-      return [
-        ...filterdState,
-        { ...action.state, id: currentId, isSelected: true },
-      ].sort((a, b) => {
+      return [...filterdState, { ...action.state, id }].sort((a, b) => {
         return a.id - b.id;
       });
     }

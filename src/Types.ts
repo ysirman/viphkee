@@ -58,7 +58,6 @@ const changePlayerConfig = (state: PlayerConfigType) =>
 const resetPlayerConfig = (state: PlayerConfigType) =>
   ({
     type: PLAYER_CONFIG_RESET,
-    state,
   } as const);
 
 export type PlayerConfigAction =
@@ -86,7 +85,6 @@ const selectPlayList = (state: PlayListType) =>
 const deletePlayList = (state: PlayListType) =>
   ({
     type: PLAY_LIST_DELETE,
-    state,
   } as const);
 
 export type PlayListAction =
