@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import { PLAYER_CONFIG_CHANGE } from "../../actions/playerConfig";
+import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { validateUrl } from "../../utils/validator";
 
@@ -18,13 +18,12 @@ const InputUrl: React.FC = () => {
 
   const handleUrlLoadButton = (url: string) => {
     if (validateUrl(url)) {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           url: url,
-        },
-      });
+        })
+      );
     }
   };
 

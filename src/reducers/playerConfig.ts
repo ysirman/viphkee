@@ -1,7 +1,4 @@
-import {
-  PLAYER_CONFIG_CHANGE,
-  PLAYER_CONFIG_RESET,
-} from "../actions/playerConfig";
+import { PlayerConfigActionType } from "../actions/playerConfig";
 import { PlayerConfigType, PlayerConfigAction } from "../Types";
 
 const initialState: PlayerConfigType = {
@@ -26,11 +23,11 @@ const initialState: PlayerConfigType = {
 const playerConfig = (
   state: PlayerConfigType = initialState,
   action: PlayerConfigAction
-) => {
+): PlayerConfigType => {
   switch (action.type) {
-    case PLAYER_CONFIG_CHANGE:
-      return action.state;
-    case PLAYER_CONFIG_RESET:
+    case PlayerConfigActionType.updated:
+      return action.state ?? state;
+    case PlayerConfigActionType.reset:
       return initialState;
     default:
       return state;

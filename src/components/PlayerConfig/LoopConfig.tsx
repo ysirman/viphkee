@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import { PLAYER_CONFIG_CHANGE } from "../../actions/playerConfig";
+import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { secondsToTime, timeToSeconds } from "../../utils/formatter";
 import { validateHHMMSS } from "../../utils/validator";
@@ -28,13 +28,12 @@ const LoopConfig: React.FC = () => {
     if (validateHHMMSS(loopState.end) || loopState.end === "0:00") {
       return;
     }
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         loopState: { ...loopState, isLoop: !loopState.isLoop },
-      },
-    });
+      })
+    );
   };
 
   const handleLoopStart = (loopStart: string) => {
@@ -42,13 +41,12 @@ const LoopConfig: React.FC = () => {
       loopStart = "0:00";
     }
     console.log("set loop start time:", loopStart);
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         loopState: { ...loopState, start: loopStart },
-      },
-    });
+      })
+    );
   };
 
   const handleLoopEnd = (loopEnd: string): void => {
@@ -56,13 +54,12 @@ const LoopConfig: React.FC = () => {
       loopEnd = "0:00";
     }
     console.log("set loop end time:", loopEnd);
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         loopState: { ...loopState, end: loopEnd },
-      },
-    });
+      })
+    );
   };
 
   const handleZooming = (_: any) => {
@@ -71,38 +68,35 @@ const LoopConfig: React.FC = () => {
         (timeToSeconds(loopState.start) / playerConfig.duration) * 100 - 5;
       const max =
         (timeToSeconds(loopState.end) / playerConfig.duration) * 100 + 5;
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           zoomState: {
             isZoom: true,
             min: min < 0 ? 0 : min,
             max: max > 100 ? 100 : max,
           },
-        },
-      });
+        })
+      );
     } else {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           zoomState: { ...zoomState, isZoom: false },
-        },
-      });
+        })
+      );
     }
   };
 
   const handleLoopStartUpDown = (plusOrMinus: number) => {
     const newStartValue = timeToSeconds(loopState.start) + 1 * plusOrMinus;
     if (newStartValue >= 0 && newStartValue < timeToSeconds(loopState.end)) {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           loopState: { ...loopState, start: secondsToTime(newStartValue) },
-        },
-      });
+        })
+      );
     }
   };
 
@@ -112,13 +106,12 @@ const LoopConfig: React.FC = () => {
       newEndValue <= playerConfig.duration &&
       newEndValue > timeToSeconds(loopState.start)
     ) {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           loopState: { ...loopState, end: secondsToTime(newEndValue) },
-        },
-      });
+        })
+      );
     }
   };
 

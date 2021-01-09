@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { PlayListType } from "../Types";
 
-import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
+import { updatePlayerConfig } from "../actions/playerConfig";
 import { PLAY_LIST_SELECT } from "../actions/playList";
 import PlayerContext from "../contexts/PlayerContext";
 
@@ -17,9 +17,8 @@ const PlayListItem: React.FC<{ playListItem: PlayListType }> = ({
   const { state, dispatch } = useContext(PlayerContext);
   const playerConfig = state.playerConfig;
   const handleClickListItem = () => {
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         url: youtubeUrl(playListItem.videoId),
         loopState: {
@@ -27,8 +26,8 @@ const PlayListItem: React.FC<{ playListItem: PlayListType }> = ({
           start: playListItem.loopStart,
           end: playListItem.loopEnd,
         },
-      },
-    });
+      })
+    );
     dispatch({
       type: PLAY_LIST_SELECT,
       state: {

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import PlayerContext from "../contexts/PlayerContext";
 
-import { PLAYER_CONFIG_RESET } from "../actions/playerConfig";
+import { resetPlayerConfig } from "../actions/playerConfig";
 import {
   PLAY_LIST_ADD,
   PLAY_LIST_UPDATE,
@@ -53,9 +53,7 @@ const PlayListForm: React.FC = () => {
   };
 
   const handleDeleteButton = () => {
-    dispatch({
-      type: PLAYER_CONFIG_RESET,
-    });
+    dispatch(resetPlayerConfig());
     dispatch({
       type: PLAY_LIST_DELETE,
     });

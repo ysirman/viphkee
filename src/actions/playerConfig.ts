@@ -1,2 +1,18 @@
-export const PLAYER_CONFIG_CHANGE = "PLAYER_CONFIG_CHANGE";
-export const PLAYER_CONFIG_RESET = "PLAYER_CONFIG_RESET";
+import { PlayerConfigAction, PlayerConfigType } from "../Types";
+
+const FEATURE = "playerConfig";
+export const PlayerConfigActionType = {
+  updated: `${FEATURE}/updated`,
+  reset: `${FEATURE}/reset`,
+} as const;
+
+export const updatePlayerConfig = (
+  playerConfig: PlayerConfigType
+): PlayerConfigAction => ({
+  type: PlayerConfigActionType.updated,
+  state: playerConfig,
+});
+
+export const resetPlayerConfig = (): PlayerConfigAction => ({
+  type: PlayerConfigActionType.reset,
+});

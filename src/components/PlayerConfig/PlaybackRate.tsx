@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import { PLAYER_CONFIG_CHANGE } from "../../actions/playerConfig";
+import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import Slider from "@material-ui/core/Slider";
 import Grid from "@material-ui/core/Grid";
@@ -14,13 +14,12 @@ const PlaybackRate: React.FC = () => {
 
   const handlePlaybackRate = (_: any, rate: number | number[]) => {
     if (typeof rate === "number") {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           playbackRate: rate,
-        },
-      });
+        })
+      );
     }
   };
 

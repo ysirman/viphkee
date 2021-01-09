@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 
 import PlayerContext from "../contexts/PlayerContext";
 import { ProgressType } from "../Types";
-import { PLAYER_CONFIG_CHANGE } from "../actions/playerConfig";
+import { updatePlayerConfig } from "../actions/playerConfig";
 import PlayerConfig from "./PlayerConfig";
 
 import { timeToSeconds } from "../utils/formatter";
@@ -29,25 +29,23 @@ const Player: React.FC = () => {
         timeToSeconds(loopState.start) / playerConfig.duration;
       player.seekTo(loopStartRate);
     }
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         played: progress.played,
         loaded: progress.loaded,
-      },
-    });
+      })
+    );
   };
 
   const handleDuration = (duration: number) => {
     console.log("onDuration", duration);
-    dispatch({
-      type: PLAYER_CONFIG_CHANGE,
-      state: {
+    dispatch(
+      updatePlayerConfig({
         ...playerConfig,
         duration: duration,
-      },
-    });
+      })
+    );
     if (loopState.isLoop === true && player instanceof ReactPlayer) {
       const loopStartRate = timeToSeconds(loopState.start) / duration;
       player.seekTo(loopStartRate);

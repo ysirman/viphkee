@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import { PLAYER_CONFIG_CHANGE } from "../../actions/playerConfig";
+import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { secondsToTime, timeToSeconds } from "../../utils/formatter";
 
@@ -56,17 +56,16 @@ const LoopRangeSlider: React.FC = () => {
 
   const handleChangeLoopRange = (_: any, newValue: number | number[]) => {
     if (newValue instanceof Array) {
-      dispatch({
-        type: PLAYER_CONFIG_CHANGE,
-        state: {
+      dispatch(
+        updatePlayerConfig({
           ...playerConfig,
           loopState: {
             ...loopState,
             start: secondsToTime((newValue[0] / 100) * playerConfig.duration),
             end: secondsToTime((newValue[1] / 100) * playerConfig.duration),
           },
-        },
-      });
+        })
+      );
     }
   };
 

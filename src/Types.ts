@@ -1,8 +1,5 @@
 import { CombinedState } from "redux";
-import {
-  PLAYER_CONFIG_CHANGE,
-  PLAYER_CONFIG_RESET,
-} from "./actions/playerConfig";
+import { PlayerConfigActionType } from "./actions/playerConfig";
 import {
   PLAY_LIST_ADD,
   PLAY_LIST_UPDATE,
@@ -49,20 +46,11 @@ export type ProgressType = {
   loadedSeconds: number;
 };
 
-const updatePlayerConfig = (state: PlayerConfigType) =>
-  ({
-    type: PLAYER_CONFIG_CHANGE,
-    state,
-  } as const);
-
-const resetPlayerConfig = () =>
-  ({
-    type: PLAYER_CONFIG_RESET,
-  } as const);
-
-export type PlayerConfigAction =
-  | ReturnType<typeof updatePlayerConfig>
-  | ReturnType<typeof resetPlayerConfig>;
+type ValueOf<T> = T[keyof T];
+export type PlayerConfigAction = {
+  type: ValueOf<typeof PlayerConfigActionType>;
+  state?: PlayerConfigType;
+};
 
 const addPlayList = (state: PlayListType) =>
   ({
