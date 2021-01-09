@@ -30,10 +30,8 @@ const playerConfig = (
   switch (action.type) {
     case PLAYER_CONFIG_CHANGE:
       return action.state;
-
     case PLAYER_CONFIG_RESET:
       return initialState;
-
     default:
       return state;
   }

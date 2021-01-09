@@ -49,19 +49,19 @@ export type ProgressType = {
   loadedSeconds: number;
 };
 
-const changePlayerConfig = (state: PlayerConfigType) =>
+const updatePlayerConfig = (state: PlayerConfigType) =>
   ({
     type: PLAYER_CONFIG_CHANGE,
     state,
   } as const);
 
-const resetPlayerConfig = (state: PlayerConfigType) =>
+const resetPlayerConfig = () =>
   ({
     type: PLAYER_CONFIG_RESET,
   } as const);
 
 export type PlayerConfigAction =
-  | ReturnType<typeof changePlayerConfig>
+  | ReturnType<typeof updatePlayerConfig>
   | ReturnType<typeof resetPlayerConfig>;
 
 const addPlayList = (state: PlayListType) =>
@@ -82,7 +82,7 @@ const selectPlayList = (state: PlayListType) =>
     state,
   } as const);
 
-const deletePlayList = (state: PlayListType) =>
+const deletePlayList = () =>
   ({
     type: PLAY_LIST_DELETE,
   } as const);

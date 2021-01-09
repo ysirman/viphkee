@@ -9,6 +9,9 @@ import {
   PLAY_LIST_DELETE,
 } from "../actions/playList";
 
+import { youtubeId } from "../utils/youtubeUrls";
+import { DEFAULT_PLAY_LIST_ID } from "../utils/constants";
+
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
@@ -20,18 +23,13 @@ const PlayListForm: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
 
   const playerConfig = state.playerConfig;
-  const playList = state.playList;
 
   const handleAddButton = () => {
-    const videoId = new URL(playerConfig.url).searchParams.get("v");
-    if (videoId === "" || videoId === null) {
-      return;
-    }
     dispatch({
       type: PLAY_LIST_ADD,
       state: {
-        id: 0,
-        videoId: videoId,
+        id: DEFAULT_PLAY_LIST_ID,
+        videoId: youtubeId(playerConfig.url),
         videoTitle: "dummy video title",
         loopStart: playerConfig.loopState.start,
         loopEnd: playerConfig.loopState.end,
@@ -41,18 +39,11 @@ const PlayListForm: React.FC = () => {
   };
 
   const handleUpdateButton = () => {
-    const videoId = new URL(playerConfig.url).searchParams.get("v");
-    if (videoId === "" || videoId === null) {
-      return;
-    }
-    if (playList.length === 0) {
-      handleAddButton();
-    }
     dispatch({
       type: PLAY_LIST_UPDATE,
       state: {
-        id: 0,
-        videoId: videoId,
+        id: DEFAULT_PLAY_LIST_ID,
+        videoId: youtubeId(playerConfig.url),
         videoTitle: "dummy video title",
         loopStart: playerConfig.loopState.start,
         loopEnd: playerConfig.loopState.end,
