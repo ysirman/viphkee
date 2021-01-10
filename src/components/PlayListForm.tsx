@@ -4,13 +4,10 @@ import PlayerContext from "../contexts/PlayerContext";
 
 import { resetPlayerConfig } from "../actions/playerConfig";
 import {
-  PLAY_LIST_ADD,
-  PLAY_LIST_UPDATE,
-  PLAY_LIST_DELETE,
+  addPlayList,
+  updatePlayList,
+  deletePlayList,
 } from "../actions/playList";
-
-import { youtubeId } from "../utils/youtubeUrls";
-import { DEFAULT_PLAY_LIST_ID } from "../utils/constants";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -25,38 +22,16 @@ const PlayListForm: React.FC = () => {
   const playerConfig = state.playerConfig;
 
   const handleAddButton = () => {
-    dispatch({
-      type: PLAY_LIST_ADD,
-      state: {
-        id: DEFAULT_PLAY_LIST_ID,
-        videoId: youtubeId(playerConfig.url),
-        videoTitle: "dummy video title",
-        loopStart: playerConfig.loopState.start,
-        loopEnd: playerConfig.loopState.end,
-        isSelected: true,
-      },
-    });
+    dispatch(addPlayList(playerConfig));
   };
 
   const handleUpdateButton = () => {
-    dispatch({
-      type: PLAY_LIST_UPDATE,
-      state: {
-        id: DEFAULT_PLAY_LIST_ID,
-        videoId: youtubeId(playerConfig.url),
-        videoTitle: "dummy video title",
-        loopStart: playerConfig.loopState.start,
-        loopEnd: playerConfig.loopState.end,
-        isSelected: true,
-      },
-    });
+    dispatch(updatePlayList(playerConfig));
   };
 
   const handleDeleteButton = () => {
     dispatch(resetPlayerConfig());
-    dispatch({
-      type: PLAY_LIST_DELETE,
-    });
+    dispatch(deletePlayList());
   };
 
   const isDisabled = playerConfig.url === "";

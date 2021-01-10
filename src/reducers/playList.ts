@@ -1,9 +1,4 @@
-import {
-  PLAY_LIST_ADD,
-  PLAY_LIST_UPDATE,
-  PLAY_LIST_SELECT,
-  PLAY_LIST_DELETE,
-} from "../actions/playList";
+import { PlayListActionType } from "../actions/playList";
 import { PlayListType, PlayListAction } from "../Types";
 
 const validateDuplication = (state: PlayListType, action: PlayListType) => {
@@ -35,7 +30,11 @@ const sortPlayList = (state: PlayListType[]) => {
   });
 };
 
-const addPlayList = (state: PlayListType[], actionState: PlayListType) => {
+const addPlayList = (state: PlayListType[], action: PlayListAction) => {
+  const actionState = action.state;
+  if (!actionState) {
+    return state;
+  }
   const id = maxId(state) + 1;
   const filterdState = state.filter((playListItem) =>
     validateDuplication(playListItem, actionState)
@@ -51,9 +50,13 @@ const addPlayList = (state: PlayListType[], actionState: PlayListType) => {
   return [...state, { ...actionState, id }];
 };
 
-const updatePlayList = (state: PlayListType[], actionState: PlayListType) => {
+const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
+  const actionState = action.state;
+  if (!actionState) {
+    return state;
+  }
   if (state.length === 0) {
-    return addPlayList(state, actionState);
+    return addPlayList(state, action);
   }
   const filterdState = state.filter(
     (playListItem) => playListItem.isSelected === false
@@ -63,7 +66,11 @@ const updatePlayList = (state: PlayListType[], actionState: PlayListType) => {
   return sortPlayList([...filterdState, { ...actionState, id }]);
 };
 
-const selectPlayList = (state: PlayListType[], actionState: PlayListType) => {
+const selectPlayList = (state: PlayListType[], action: PlayListAction) => {
+  const actionState = action.state;
+  if (!actionState) {
+    return state;
+  }
   const currentItem = state.filter(
     (playListItem) => playListItem.isSelected === true
   );
@@ -87,13 +94,13 @@ const deletePlayList = (state: PlayListType[]) => {
 
 const playList = (state: PlayListType[] = [], action: PlayListAction) => {
   switch (action.type) {
-    case PLAY_LIST_ADD:
-      return addPlayList(state, action.state);
-    case PLAY_LIST_UPDATE:
-      return updatePlayList(state, action.state);
-    case PLAY_LIST_SELECT:
-      return selectPlayList(state, action.state);
-    case PLAY_LIST_DELETE:
+    case PlayListActionType.added:
+      return addPlayList(state, action);
+    case PlayListActionType.updated:
+      return updatePlayList(state, action);
+    case PlayListActionType.selected:
+      return selectPlayList(state, action);
+    case PlayListActionType.deleted:
       return deletePlayList(state);
     default:
       return state;

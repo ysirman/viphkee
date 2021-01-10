@@ -1,11 +1,6 @@
 import { CombinedState } from "redux";
 import { PlayerConfigActionType } from "./actions/playerConfig";
-import {
-  PLAY_LIST_ADD,
-  PLAY_LIST_UPDATE,
-  PLAY_LIST_SELECT,
-  PLAY_LIST_DELETE,
-} from "./actions/playList";
+import { PlayListActionType } from "./actions/playList";
 
 export type PlayListType = {
   id: number;
@@ -52,34 +47,10 @@ export type PlayerConfigAction = {
   state?: PlayerConfigType;
 };
 
-const addPlayList = (state: PlayListType) =>
-  ({
-    type: PLAY_LIST_ADD,
-    state,
-  } as const);
-
-const updatePlayList = (state: PlayListType) =>
-  ({
-    type: PLAY_LIST_UPDATE,
-    state,
-  } as const);
-
-const selectPlayList = (state: PlayListType) =>
-  ({
-    type: PLAY_LIST_SELECT,
-    state,
-  } as const);
-
-const deletePlayList = () =>
-  ({
-    type: PLAY_LIST_DELETE,
-  } as const);
-
-export type PlayListAction =
-  | ReturnType<typeof addPlayList>
-  | ReturnType<typeof updatePlayList>
-  | ReturnType<typeof selectPlayList>
-  | ReturnType<typeof deletePlayList>;
+export type PlayListAction = {
+  type: ValueOf<typeof PlayListActionType>;
+  state?: PlayListType;
+};
 
 export type Action = PlayerConfigAction | PlayListAction;
 
@@ -91,7 +62,7 @@ export type PlayerContextType = {
   dispatch: (action: Action) => void;
 };
 
-export interface State {
+export type State = {
   playList: PlayListType[];
   playerConfig: PlayerConfigType;
-}
+};
