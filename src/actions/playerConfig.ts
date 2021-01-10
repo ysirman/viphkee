@@ -10,7 +10,7 @@ export const updatePlayerConfig = (
   playerConfig: PlayerConfigType
 ): PlayerConfigAction => ({
   type: PlayerConfigActionType.updated,
-  state: playerConfig,
+  payload: playerConfig,
 });
 
 export const resetPlayerConfig = (): PlayerConfigAction => ({

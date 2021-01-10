@@ -31,13 +31,13 @@ const sortPlayList = (state: PlayListType[]) => {
 };
 
 const addPlayList = (state: PlayListType[], action: PlayListAction) => {
-  const actionState = action.state;
-  if (!actionState) {
+  const payload = action.payload;
+  if (!payload) {
     return state;
   }
   const id = maxId(state) + 1;
   const filterdState = state.filter((playListItem) =>
-    validateDuplication(playListItem, actionState)
+    validateDuplication(playListItem, payload)
   );
   if (filterdState.length !== 0) {
     return state;
@@ -47,12 +47,12 @@ const addPlayList = (state: PlayListType[], action: PlayListAction) => {
       (playListItem) => playListItem.isSelected === true
     )[0].isSelected = false;
   }
-  return [...state, { ...actionState, id }];
+  return [...state, { ...payload, id }];
 };
 
 const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
-  const actionState = action.state;
-  if (!actionState) {
+  const payload = action.payload;
+  if (!payload) {
     return state;
   }
   if (state.length === 0) {
@@ -63,12 +63,12 @@ const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
   );
   const id = state.filter((playListItem) => playListItem.isSelected === true)[0]
     .id;
-  return sortPlayList([...filterdState, { ...actionState, id }]);
+  return sortPlayList([...filterdState, { ...payload, id }]);
 };
 
 const selectPlayList = (state: PlayListType[], action: PlayListAction) => {
-  const actionState = action.state;
-  if (!actionState) {
+  const payload = action.payload;
+  if (!payload) {
     return state;
   }
   const currentItem = state.filter(
@@ -80,7 +80,7 @@ const selectPlayList = (state: PlayListType[], action: PlayListAction) => {
     )[0].isSelected = false;
   }
   state.filter(
-    (playListItem) => playListItem.id === actionState.id
+    (playListItem) => playListItem.id === payload.id
   )[0].isSelected = true;
   return sortPlayList(state);
 };

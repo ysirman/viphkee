@@ -44,12 +44,12 @@ export type ProgressType = {
 type ValueOf<T> = T[keyof T];
 export type PlayerConfigAction = {
   type: ValueOf<typeof PlayerConfigActionType>;
-  state?: PlayerConfigType;
+  payload?: PlayerConfigType;
 };
 
 export type PlayListAction = {
   type: ValueOf<typeof PlayListActionType>;
-  state?: PlayListType;
+  payload?: PlayListType;
 };
 
 export type Action = PlayerConfigAction | PlayListAction;

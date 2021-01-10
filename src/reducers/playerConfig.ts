@@ -26,7 +26,7 @@ const playerConfig = (
 ): PlayerConfigType => {
   switch (action.type) {
     case PlayerConfigActionType.updated:
-      return action.state ?? state;
+      return action.payload ?? state;
     case PlayerConfigActionType.reset:
       return initialState;
     default:
