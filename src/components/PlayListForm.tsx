@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PlayerContext from "../contexts/PlayerContext";
 
@@ -8,6 +8,7 @@ import {
   updatePlayList,
   deletePlayList,
 } from "../actions/playList";
+import { FlashMessageText, updateFlashMessage } from "../actions/flashMessage";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -20,6 +21,18 @@ const PlayListForm: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
 
   const playerConfig = state.playerConfig;
+  const [allowFlashMessage, setAllowFlashMessage] = useState(false);
+  const playList = state.playList;
+
+  useEffect(() => {
+    setAllowFlashMessage(true);
+  }, []);
+
+  useEffect(() => {
+    if (allowFlashMessage) {
+      dispatch(updateFlashMessage(FlashMessageText.update));
+    }
+  }, [playList]);
 
   const handleAddButton = () => {
     dispatch(addPlayList(playerConfig));

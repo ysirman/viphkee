@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SideMenu: React.FC<{
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ open, setOpen }) => {
+  menuOpen: boolean;
+  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ menuOpen, setMenuOpen }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setMenuOpen(false);
   };
 
   return (
@@ -60,7 +60,7 @@ const SideMenu: React.FC<{
       className={classes.drawer}
       variant="persistent"
       anchor="left"
-      open={open}
+      open={menuOpen}
       classes={{
         paper: classes.drawerPaper,
       }}

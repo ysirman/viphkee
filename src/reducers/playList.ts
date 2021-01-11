@@ -12,6 +12,18 @@ const validateDuplication = (state: PlayListType, action: PlayListType) => {
   return false;
 };
 
+const validateUnChange = (state: PlayListType, action: PlayListType) => {
+  if (
+    state.videoId === action.videoId &&
+    state.videoTitle === action.videoTitle &&
+    state.loopStart === action.loopStart &&
+    state.loopEnd === action.loopEnd
+  ) {
+    return true;
+  }
+  return false;
+};
+
 const maxId = (state: PlayListType[]) => {
   if (state.length === 0) {
     return 0;
@@ -57,6 +69,12 @@ const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
   }
   if (state.length === 0) {
     return addPlayList(state, action);
+  }
+  const sameItem = state.filter((playListItem) =>
+    validateUnChange(playListItem, payload)
+  );
+  if (sameItem.length !== 0) {
+    return state;
   }
   const filterdState = state.filter(
     (playListItem) => playListItem.isSelected === false

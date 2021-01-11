@@ -8,6 +8,7 @@ import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
 import PlayListForm from "./PlayListForm";
+import FlashMessage from "./FlashMessage";
 
 import { youtubeUrl } from "../utils/youtubeUrls";
 
@@ -97,6 +98,10 @@ const App: React.FC = () => {
         max: 100,
       },
     },
+    flashMessage: {
+      isOpen: false,
+      message: "",
+    },
   };
 
   useEffect(() => {
@@ -111,17 +116,18 @@ const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className={classes.root}>
       <PlayerContext.Provider value={{ state, dispatch }}>
         <CssBaseline />
-        <HeaderMenu open={open} setOpen={setOpen} />
-        <SideMenu open={open} setOpen={setOpen} />
+        <FlashMessage />
+        <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         <main
           className={clsx(classes.content, {
-            [classes.contentShift]: open,
+            [classes.contentShift]: menuOpen,
           })}
         >
           <Box mt={"64px"}>

@@ -40,19 +40,19 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const HeaderMenu: React.FC<{
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ open, setOpen }) => {
+  menuOpen: boolean;
+  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ menuOpen, setMenuOpen }) => {
   const classes = useStyles();
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setMenuOpen(true);
   };
 
   return (
     <AppBar
       position="fixed"
       className={clsx(classes.appBar, {
-        [classes.appBarShift]: open,
+        [classes.appBarShift]: menuOpen,
       })}
     >
       <Toolbar>
@@ -61,7 +61,7 @@ const HeaderMenu: React.FC<{
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           edge="start"
-          className={clsx(classes.menuButton, open && classes.hide)}
+          className={clsx(classes.menuButton, menuOpen && classes.hide)}
         >
           <MenuIcon />
         </IconButton>

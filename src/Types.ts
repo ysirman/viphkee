@@ -1,6 +1,7 @@
 import { CombinedState } from "redux";
 import { PlayerConfigActionType } from "./actions/playerConfig";
 import { PlayListActionType } from "./actions/playList";
+import { FlashMessageActionType } from "./actions/flashMessage";
 
 export type PlayListType = {
   id: number;
@@ -20,6 +21,11 @@ export type PlayerConfigType = {
   playbackRate: number;
   loopState: LoopStateType;
   zoomState: ZoomStateType;
+};
+
+export type FlashMessageType = {
+  isOpen: boolean;
+  message: string;
 };
 
 export type LoopStateType = {
@@ -52,12 +58,18 @@ export type PlayListAction = {
   payload?: PlayListType;
 };
 
-export type Action = PlayerConfigAction | PlayListAction;
+export type FlashMessageAction = {
+  type: ValueOf<typeof FlashMessageActionType>;
+  payload?: FlashMessageType;
+};
+
+export type Action = PlayerConfigAction | PlayListAction | FlashMessageAction;
 
 export type PlayerContextType = {
   state: CombinedState<{
     playerConfig: PlayerConfigType;
     playList: PlayListType[];
+    flashMessage: FlashMessageType;
   }>;
   dispatch: (action: Action) => void;
 };
@@ -65,4 +77,5 @@ export type PlayerContextType = {
 export type State = {
   playList: PlayListType[];
   playerConfig: PlayerConfigType;
+  flashMessage: FlashMessageType;
 };
