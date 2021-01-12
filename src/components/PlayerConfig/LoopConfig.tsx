@@ -9,11 +9,16 @@ import { validateHHMMSS } from "../../utils/validator";
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
 
 import LoopIcon from "@material-ui/icons/Loop";
 import ZoomOutMapIcon from "@material-ui/icons/ZoomOutMap";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+
+import "./LoopConfig.css";
 
 const LoopConfig: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
@@ -116,7 +121,7 @@ const LoopConfig: React.FC = () => {
   };
 
   return (
-    <Grid container spacing={1} justify="flex-start" alignItems="center">
+    <Grid container spacing={2} justify="flex-start" alignItems="center">
       <Grid item>
         <Grid container alignItems="center">
           <Grid item>
@@ -134,10 +139,23 @@ const LoopConfig: React.FC = () => {
         </Grid>
       </Grid>
       <Grid item>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item>
+            <AccessTimeIcon />
+          </Grid>
+          <Grid item>
+            <Typography>
+              {secondsToTime(playerConfig.played * playerConfig.duration)}{" "}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
         <Grid container alignItems="center">
           <Grid container item xs alignItems="center">
             <Grid item>
               <TextField
+                className="loopInput"
                 label="Loop Start"
                 variant="outlined"
                 size="small"
@@ -145,18 +163,19 @@ const LoopConfig: React.FC = () => {
                 onChange={(e) => handleLoopStart(e.target.value)}
               />
             </Grid>
-            <Grid item>
-              <div>
+            <Grid item className="loopTime-arrowIcon">
+              <IconButton>
                 <ArrowDropUpIcon onClick={() => handleLoopStartUpDown(1)} />
-              </div>
-              <div>
+              </IconButton>
+              <IconButton>
                 <ArrowDropDownIcon onClick={() => handleLoopStartUpDown(-1)} />
-              </div>
+              </IconButton>
             </Grid>
           </Grid>
           <Grid container item xs alignItems="center">
             <Grid item>
               <TextField
+                className="loopInput"
                 label="Loop End"
                 variant="outlined"
                 size="small"
@@ -164,13 +183,13 @@ const LoopConfig: React.FC = () => {
                 onChange={(e) => handleLoopEnd(e.target.value)}
               />
             </Grid>
-            <Grid item>
-              <div>
+            <Grid item className="loopTime-arrowIcon">
+              <IconButton>
                 <ArrowDropUpIcon onClick={() => handleLoopEndUpDown(1)} />
-              </div>
-              <div>
+              </IconButton>
+              <IconButton>
                 <ArrowDropDownIcon onClick={() => handleLoopEndUpDown(-1)} />
-              </div>
+              </IconButton>
             </Grid>
           </Grid>
         </Grid>

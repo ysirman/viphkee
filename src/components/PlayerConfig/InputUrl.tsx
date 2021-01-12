@@ -32,12 +32,12 @@ const InputUrl: React.FC = () => {
       <Grid item sm={11} xs={10}>
         <FormControl fullWidth variant="outlined">
           <InputLabel htmlFor="outlined-adornment-amount">
-            Enter video URL
+            Enter Youtube URL
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             inputRef={inputUrlEl}
-            labelWidth={120}
+            labelWidth={140}
           />
         </FormControl>
       </Grid>

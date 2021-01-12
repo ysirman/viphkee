@@ -12,7 +12,7 @@ const PlayList: React.FC = () => {
   return (
     <List>
       {playList.map((playListItem, index) => (
-        <PlayListItem key={index} playListItem={playListItem} />
+        <PlayListItem key={index} playListItem={playListItem} index={index} />
       ))}
     </List>
   );

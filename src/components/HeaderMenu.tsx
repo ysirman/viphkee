@@ -12,6 +12,8 @@ import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
+import { grey } from "@material-ui/core/colors";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      backgroundColor: grey[900],
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -65,7 +68,7 @@ const HeaderMenu: React.FC<{
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
+        <Typography variant="subtitle2" display={"block"}>
           Phrase Keeper!!
         </Typography>
         <InputUrl />

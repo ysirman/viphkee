@@ -60,7 +60,7 @@ const Player: React.FC = () => {
         width="100%"
         height={
           window.innerWidth > 1024
-            ? "calc(100vh - 240px)"
+            ? "calc(100vh - 348px)"
             : "calc((9 / 16) * 100vw)"
         }
         controls={true}

@@ -9,10 +9,14 @@ import PlayerContext from "../contexts/PlayerContext";
 import { youtubeUrl, youtubeImgUrl } from "../utils/youtubeUrls";
 
 import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
 
-const PlayListItem: React.FC<{ playListItem: PlayListType }> = ({
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+
+import "./PlayListItem.css";
+
+const PlayListItem: React.FC<{ playListItem: PlayListType; index: number }> = ({
   playListItem,
+  index,
 }) => {
   const { state, dispatch } = useContext(PlayerContext);
   const playerConfig = state.playerConfig;
@@ -32,11 +36,18 @@ const PlayListItem: React.FC<{ playListItem: PlayListType }> = ({
   };
 
   return (
-    <ListItem button onClick={handleClickListItem}>
-      <img src={youtubeImgUrl(playListItem.videoId)} width="64px" />
-      <Typography noWrap={true} variant={"caption"}>
-        {playListItem.videoTitle}
-      </Typography>
+    <ListItem className="playListItem" button onClick={handleClickListItem}>
+      <span
+        className={
+          playListItem.isSelected === true
+            ? "playListItem-icon"
+            : "playListItem-index"
+        }
+      >
+        {playListItem.isSelected === true ? <PlayArrowIcon /> : index + 1}
+      </span>
+      <img src={youtubeImgUrl(playListItem.videoId)} />
+      <span>{playListItem.videoTitle}</span>
     </ListItem>
   );
 };

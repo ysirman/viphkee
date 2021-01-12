@@ -11,8 +11,9 @@ import {
 import { FlashMessageText, updateFlashMessage } from "../actions/flashMessage";
 
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
 
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import CachedIcon from "@material-ui/icons/Cached";
@@ -59,47 +60,50 @@ const PlayListForm: React.FC = () => {
   const isDisabled = playerConfig.url === "";
 
   return (
-    <Box display="flex" justifyContent="center" mb={2}>
-      <TextField
-        id="outlined-full-width"
-        label="Title"
-        style={{ margin: 8 }}
-        placeholder="input phrase name"
-        fullWidth
-        margin="normal"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        variant="outlined"
-        value={videoTitle}
-        onChange={(e) => {
-          setVideoTitle(e.target.value);
-        }}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddButton}
-        disabled={isDisabled}
-      >
-        <PlaylistAddIcon />
-      </Button>
-      <Button
-        variant="contained"
-        color="default"
-        onClick={handleUpdateButton}
-        disabled={isDisabled}
-      >
-        <CachedIcon />
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleDeleteButton}
-        disabled={isDisabled}
-      >
-        <DeleteIcon />
-      </Button>
+    <Box mx={4} mt={1}>
+      <Grid container spacing={2} justify="flex-start" alignItems="center">
+        <Grid item xs={9}>
+          <TextField
+            id="outlined-full-width"
+            label="Title"
+            style={{ margin: 8 }}
+            placeholder="input phrase name"
+            margin="normal"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+            value={videoTitle}
+            onChange={(e) => {
+              setVideoTitle(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <IconButton
+            aria-label="add"
+            onClick={handleAddButton}
+            disabled={isDisabled}
+          >
+            <PlaylistAddIcon />
+          </IconButton>
+          <IconButton
+            aria-label="update"
+            onClick={handleUpdateButton}
+            disabled={isDisabled}
+          >
+            <CachedIcon />
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            onClick={handleDeleteButton}
+            disabled={isDisabled}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

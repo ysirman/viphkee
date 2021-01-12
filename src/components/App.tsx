@@ -3,6 +3,7 @@ import React, { useState, useReducer, useEffect } from "react";
 import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
 import { State } from "../Types";
+import theme from "../theme";
 
 import Player from "./Player";
 import HeaderMenu from "./HeaderMenu";
@@ -13,6 +14,7 @@ import FlashMessage from "./FlashMessage";
 import { youtubeUrl } from "../utils/youtubeUrls";
 
 import clsx from "clsx";
+import { ThemeProvider } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -119,24 +121,26 @@ const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className={classes.root}>
-      <PlayerContext.Provider value={{ state, dispatch }}>
-        <CssBaseline />
-        <FlashMessage />
-        <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <main
-          className={clsx(classes.content, {
-            [classes.contentShift]: menuOpen,
-          })}
-        >
-          <Box mt={"64px"}>
-            <Player />
-          </Box>
-          <PlayListForm />
-        </main>
-      </PlayerContext.Provider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <PlayerContext.Provider value={{ state, dispatch }}>
+          <CssBaseline />
+          <FlashMessage />
+          <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+          <main
+            className={clsx(classes.content, {
+              [classes.contentShift]: menuOpen,
+            })}
+          >
+            <Box mt={"64px"}>
+              <Player />
+            </Box>
+            <PlayListForm />
+          </main>
+        </PlayerContext.Provider>
+      </div>
+    </ThemeProvider>
   );
 };
 

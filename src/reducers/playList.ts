@@ -38,7 +38,8 @@ const maxId = (state: PlayListType[]) => {
 
 const sortPlayList = (state: PlayListType[]) => {
   return state.sort((a, b) => {
-    return a.id - b.id;
+    if (a.videoTitle > b.videoTitle) return 1;
+    return -1;
   });
 };
 

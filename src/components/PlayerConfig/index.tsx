@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 
 const PlayerConfig: React.FC = () => {
   return (
-    <Box m={4} mt={1}>
+    <Box mx={4} mt={1}>
       <PlaybackRate />
       <LoopRangeSlider />
       <LoopConfig />
