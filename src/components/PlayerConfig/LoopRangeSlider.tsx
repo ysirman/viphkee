@@ -12,6 +12,7 @@ const LoopRangeSlider: React.FC = () => {
   const playerConfig = state.playerConfig;
   const loopState = playerConfig.loopState;
   const zoomState = playerConfig.zoomState;
+  const isVideoLoaded = playerConfig.url !== "";
 
   const loopMarks = [
     { value: 0, label: secondsToTime(0) },
@@ -93,6 +94,7 @@ const LoopRangeSlider: React.FC = () => {
           secondsToTime((v / 100) * playerConfig.duration)
         }
         onChange={handleChangeLoopRange}
+        disabled={!isVideoLoaded}
       />
     </>
   );
