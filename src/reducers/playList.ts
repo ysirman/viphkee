@@ -56,11 +56,14 @@ const addPlayList = (state: PlayListType[], action: PlayListAction) => {
     return state;
   }
   if (state.length !== 0) {
-    state.filter(
+    const activePlayListItem = state.filter(
       (playListItem) => playListItem.isSelected === true
-    )[0].isSelected = false;
+    );
+    if (activePlayListItem.length !== 0) {
+      activePlayListItem[0].isSelected = false;
+    }
   }
-  return [...state, { ...payload, id }];
+  return sortPlayList([...state, { ...payload, id }]);
 };
 
 const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
@@ -69,6 +72,12 @@ const updatePlayList = (state: PlayListType[], action: PlayListAction) => {
     return state;
   }
   if (state.length === 0) {
+    return addPlayList(state, action);
+  }
+  if (
+    state.filter((playListItem) => playListItem.isSelected === true).length ===
+    0
+  ) {
     return addPlayList(state, action);
   }
   const sameItem = state.filter((playListItem) =>
