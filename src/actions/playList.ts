@@ -10,11 +10,16 @@ export const PlayListActionType = {
   selected: `${FEATURE}/selected`,
 } as const;
 
-const payload = (videoTitle: string, playerConfig: PlayerConfigType) => {
+const payload = (
+  videoTitle: string,
+  defaultTitle: string,
+  playerConfig: PlayerConfigType
+) => {
   return {
     id: DEFAULT_PLAY_LIST_ID,
     videoId: youtubeId(playerConfig.url),
     videoTitle: videoTitle,
+    defaultTitle: defaultTitle,
     loopStart: playerConfig.loopState.start,
     loopEnd: playerConfig.loopState.end,
     isSelected: true,
@@ -23,18 +28,20 @@ const payload = (videoTitle: string, playerConfig: PlayerConfigType) => {
 
 export const addPlayList = (
   videoTitle: string,
+  defaultTitle: string,
   playerConfig: PlayerConfigType
 ): PlayListAction => ({
   type: PlayListActionType.added,
-  payload: payload(videoTitle, playerConfig),
+  payload: payload(videoTitle, defaultTitle, playerConfig),
 });
 
 export const updatePlayList = (
   videoTitle: string,
+  defaultTitle: string,
   playerConfig: PlayerConfigType
 ): PlayListAction => ({
   type: PlayListActionType.updated,
-  payload: payload(videoTitle, playerConfig),
+  payload: payload(videoTitle, defaultTitle, playerConfig),
 });
 
 export const deletePlayList = (): PlayListAction => ({

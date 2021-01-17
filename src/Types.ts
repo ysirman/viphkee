@@ -7,6 +7,7 @@ export type PlayListType = {
   id: number;
   videoId: string;
   videoTitle: string;
+  defaultTitle: string;
   loopStart: string;
   loopEnd: string;
   isSelected: boolean;
