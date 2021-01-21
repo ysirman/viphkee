@@ -44,8 +44,9 @@ export const updatePlayList = (
   payload: payload(videoTitle, defaultTitle, playerConfig),
 });
 
-export const deletePlayList = (): PlayListAction => ({
+export const deletePlayList = (playListItem: PlayListType): PlayListAction => ({
   type: PlayListActionType.deleted,
+  payload: playListItem,
 });
 
 export const selectPlayList = (playListItem: PlayListType): PlayListAction => ({

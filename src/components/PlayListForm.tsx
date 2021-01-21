@@ -87,7 +87,7 @@ const PlayListForm: React.FC = () => {
 
   const handleDeleteButton = () => {
     dispatch(resetPlayerConfig());
-    dispatch(deletePlayList());
+    dispatch(deletePlayList(currentPlayListItem));
   };
 
   const textFieldForm = () => {

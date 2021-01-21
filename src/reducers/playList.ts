@@ -113,11 +113,13 @@ const selectPlayList = (state: PlayListType[], action: PlayListAction) => {
   return sortPlayList(state);
 };
 
-const deletePlayList = (state: PlayListType[]) => {
+const deletePlayList = (state: PlayListType[], action: PlayListAction) => {
+  const payload = action.payload;
+  if (!payload) return state;
   if (state.length === 0) {
     return state;
   }
-  return state.filter((playListItem) => playListItem.isSelected === false);
+  return state.filter((playListItem) => playListItem.id !== payload.id);
 };
 
 const playList = (state: PlayListType[] = [], action: PlayListAction) => {
@@ -129,7 +131,7 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
     case PlayListActionType.selected:
       return selectPlayList(state, action);
     case PlayListActionType.deleted:
-      return deletePlayList(state);
+      return deletePlayList(state, action);
     default:
       return state;
   }

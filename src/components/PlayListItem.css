@@ -1,10 +1,10 @@
 .playListItem {
   padding-left: 4px !important;
-  padding-right: 8px !important;
+  padding-right: 0px !important;
 }
 
 .playListItem .playListItem-index,
-.playListItem .playListItem-icon {
+.playListItem .currentPlay-icon {
   display: inline-block;
   width: 10px;
   padding-top: 9px;
@@ -14,7 +14,7 @@
   padding-left: 4px;
   font-size: 12px;
 }
-.playListItem .playListItem-icon .MuiSvgIcon-root {
+.playListItem .currentPlay-icon .MuiSvgIcon-root {
   font-size: 13px;
 }
 
@@ -24,7 +24,7 @@
   margin-right: 8px;
 }
 
-.playListItem span {
+.playListItem .videoTitle {
   width: 123px;
   height: 36px;
   line-height: 1.3;
@@ -33,4 +33,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
+}
+
+.playListItem .delete-icon.MuiIconButton-root {
+  display: block;
+  padding: 4px;
+}
+.playListItem .delete-icon .MuiSvgIcon-root {
+  font-size: 16px;
 }
