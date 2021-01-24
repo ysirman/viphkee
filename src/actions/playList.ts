@@ -6,8 +6,9 @@ const FEATURE = "playList";
 export const PlayListActionType = {
   added: `${FEATURE}/added`,
   updated: `${FEATURE}/updated`,
-  deleted: `${FEATURE}/deleted`,
   selected: `${FEATURE}/selected`,
+  deleted: `${FEATURE}/deleted`,
+  allDeleted: `${FEATURE}/allDeleted`,
 } as const;
 
 const payload = (
@@ -44,15 +45,19 @@ export const updatePlayList = (
   payload: payload(videoTitle, defaultTitle, playerConfig),
 });
 
-export const deletePlayList = (playListItem: PlayListType): PlayListAction => ({
-  type: PlayListActionType.deleted,
-  payload: playListItem,
-});
-
 export const selectPlayList = (playListItem: PlayListType): PlayListAction => ({
   type: PlayListActionType.selected,
   payload: {
     ...playListItem,
     isSelected: true,
   },
+});
+
+export const deletePlayList = (playListItem: PlayListType): PlayListAction => ({
+  type: PlayListActionType.deleted,
+  payload: playListItem,
+});
+
+export const deleteAllPlayList = (): PlayListAction => ({
+  type: PlayListActionType.allDeleted,
 });

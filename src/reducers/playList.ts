@@ -132,6 +132,8 @@ const playList = (state: PlayListType[] = [], action: PlayListAction) => {
       return selectPlayList(state, action);
     case PlayListActionType.deleted:
       return deletePlayList(state, action);
+    case PlayListActionType.allDeleted:
+      return [];
     default:
       return state;
   }

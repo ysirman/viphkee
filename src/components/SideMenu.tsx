@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import PlayerContext from "../contexts/PlayerContext";
+
+import { resetPlayerConfig } from "../actions/playerConfig";
+import { deleteAllPlayList } from "../actions/playList";
 
 import PlayList from "./PlayList";
 
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
+import { APP_KEY } from "../utils/constants";
+
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -15,15 +17,12 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 
 const drawerWidth = 240;
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
+      justifyContent: "flex-start",
     },
   })
 );
@@ -49,10 +48,22 @@ const SideMenu: React.FC<{
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ menuOpen, setMenuOpen }) => {
   const classes = useStyles();
-  const theme = useTheme();
+  const { dispatch } = useContext(PlayerContext);
 
   const handleDrawerClose = () => {
     setMenuOpen(false);
+  };
+
+  const handleDeleteAllPlayList = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to permanently remove all playlist?"
+      )
+    ) {
+      dispatch(resetPlayerConfig());
+      dispatch(deleteAllPlayList());
+      localStorage.removeItem(APP_KEY);
+    }
   };
 
   return (
@@ -67,23 +78,17 @@ const SideMenu: React.FC<{
     >
       <div className={classes.drawerHeader}>
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "ltr" ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )}
+          <ChevronLeftIcon />
         </IconButton>
       </div>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button onClick={handleDeleteAllPlayList}>
+          <ListItemIcon>
+            <DeleteSweepIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Clear Playlist"} />
+        </ListItem>
       </List>
       <Divider />
       <PlayList />
