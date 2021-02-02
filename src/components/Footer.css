@@ -1,0 +1,9 @@
+footer {
+  background-color: #191919;
+  margin-top: 40px;
+  padding: 20px;
+}
+footer .MuiTypography-h5,
+footer .MuiTypography-root {
+  margin-bottom: 12px;
+}

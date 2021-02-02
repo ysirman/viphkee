@@ -10,6 +10,7 @@ import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
 import PlayListForm from "./PlayListForm";
 import FlashMessage from "./FlashMessage";
+import Footer from "./Footer";
 
 import { APP_KEY } from "../utils/constants";
 
@@ -102,6 +103,7 @@ const App: React.FC = () => {
               <Player />
             </Box>
             <PlayListForm />
+            <Footer />
           </main>
         </PlayerContext.Provider>
       </div>
