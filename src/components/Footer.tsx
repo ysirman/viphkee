@@ -13,8 +13,10 @@ const Footer: React.FC = () => {
           Privacy Policy
         </Typography>
         <Typography component="p" variant="subtitle2" color="textSecondary">
-          保存した設定はブラウザに保存されます。サイドメニューの「Clear
-          Playlist」をクリックすることで削除可能です。
+          当サイトで保存したループ時間などの設定は、お使いのブラウザに保存されます。
+          <br />
+          （LocalStorageのKey： ViphkeePlayerLocalStorageKey
+          に保存されます。ご自身で削除することも可能です。）
         </Typography>
         <Typography component="p" variant="subtitle2" color="textSecondary">
           当サイトでは、アクセス解析に「Googleアナリティクス」を利用しています。
