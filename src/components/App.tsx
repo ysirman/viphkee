@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import Ajv from "ajv";
 
 import PlayerContext from "../contexts/PlayerContext";
 import reducer from "../reducers";
@@ -13,6 +14,7 @@ import FlashMessage from "./FlashMessage";
 import Footer from "./Footer";
 
 import { APP_KEY } from "../utils/constants";
+import { StateSchema } from "../StateSchema";
 
 import clsx from "clsx";
 import { ThemeProvider } from "@material-ui/core";
@@ -48,37 +50,44 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const App: React.FC = () => {
-  const initialState: State = {
-    playList: [],
-    playerConfig: {
-      url: "",
-      playing: true,
-      played: 0,
-      loaded: 0,
-      duration: 0,
-      playbackRate: 1.0,
-      loopState: {
-        isLoop: false,
-        start: "0:00",
-        end: "0:00",
+  const initialState = (): State => {
+    const defaultState = {
+      playList: [],
+      playerConfig: {
+        url: "",
+        playing: true,
+        played: 0,
+        loaded: 0,
+        duration: 0,
+        playbackRate: 1.0,
+        loopState: {
+          isLoop: false,
+          start: "0:00",
+          end: "0:00",
+        },
+        zoomState: {
+          isZoom: false,
+          min: 0,
+          max: 100,
+        },
       },
-      zoomState: {
-        isZoom: false,
-        min: 0,
-        max: 100,
+      flashMessage: {
+        isOpen: false,
+        message: "",
       },
-    },
-    flashMessage: {
-      isOpen: false,
-      message: "",
-    },
+    };
+    const appKeyLocalStorageData = localStorage.getItem(APP_KEY);
+    if (!appKeyLocalStorageData) return defaultState;
+
+    const appState = JSON.parse(appKeyLocalStorageData);
+    const ajv = new Ajv();
+    const validate = ajv.compile(StateSchema);
+    if (validate(appState)) return appState as State;
+
+    return defaultState;
   };
 
-  const appState = localStorage.getItem(APP_KEY);
-  const [state, dispatch] = useReducer(
-    reducer,
-    appState ? JSON.parse(appState) : initialState
-  );
+  const [state, dispatch] = useReducer(reducer, initialState());
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(false);
 
