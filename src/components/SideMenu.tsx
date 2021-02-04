@@ -17,10 +17,11 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ListItem from "@material-ui/core/ListItem";
+import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
+import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +43,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+const ListItemLink = (props: ListItemProps<"a", { button?: true }>) => {
+  return <ListItem button component="a" {...props} />;
+};
 
 const SideMenu: React.FC<{
   menuOpen: boolean;
@@ -89,6 +94,12 @@ const SideMenu: React.FC<{
           </ListItemIcon>
           <ListItemText primary={"Clear Playlist"} />
         </ListItem>
+        <ListItemLink href="https://docs.google.com/forms/d/e/1FAIpQLSejBQTliE_MK60ewFiXRq4UR8tf6yG7NzaD1TUT-FkdkFhPsA/viewform?usp=sf_link">
+          <ListItemIcon>
+            <ContactSupportIcon />
+          </ListItemIcon>
+          <ListItemText primary="Contact" />
+        </ListItemLink>
       </List>
       <Divider />
       <PlayList />

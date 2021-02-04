@@ -24,19 +24,11 @@ const Footer: React.FC = () => {
           このトラフィックデータは匿名で収集されており、個人を特定するものではありません。
           この機能はCookieを無効にすることで収集を拒否することができますので、お使いのブラウザの設定をご確認ください。
           この規約に関して、詳しくは
-          <a
-            href="https://marketingplatform.google.com/about/analytics/terms/jp/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://marketingplatform.google.com/about/analytics/terms/jp/">
             こちら
           </a>
           、または
-          <a
-            href="https://policies.google.com/technologies/partner-sites?hl=ja"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://policies.google.com/technologies/partner-sites?hl=ja">
             こちら
           </a>
           でご確認ください。

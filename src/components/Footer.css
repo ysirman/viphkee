@@ -7,3 +7,7 @@ footer .MuiTypography-h5,
 footer .MuiTypography-root {
   margin-bottom: 12px;
 }
+
+footer .MuiTypography-root a {
+  color: #e0bb00;
+}
