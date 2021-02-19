@@ -4,6 +4,10 @@
   margin-right: 10px;
   font-family: "Carter One", cursive;
 }
+.logo a {
+  color: inherit;
+  text-decoration: none;
+}
 
 @media screen and (max-width: 599px) {
   .logo {

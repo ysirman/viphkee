@@ -1,0 +1,8 @@
+.MuiTypography-h5,
+.MuiTypography-root {
+  margin-bottom: 12px;
+}
+
+.MuiTypography-root a {
+  color: #e0bb00;
+}

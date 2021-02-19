@@ -14,7 +14,7 @@ export const youtubeImgUrl = (videoId: string) => {
   return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
 };
 
-export const youtubeApiUrl = (videoId: string) => {
+export const youtubeApiUrlVideo = (videoId: string) => {
   const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
   return `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&fields=items(snippet(title))&part=snippet`;
 };

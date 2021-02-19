@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-import InputUrl from "./PlayerConfig/InputUrl";
+import SearchForm from "./PlayerConfig/SearchForm";
 
 import clsx from "clsx";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
@@ -70,8 +71,10 @@ const HeaderMenu: React.FC<{
         >
           <MenuIcon />
         </IconButton>
-        <h1 className="logo">Viphkee</h1>
-        <InputUrl />
+        <h1 className="logo">
+          <Link to="/">Viphkee</Link>
+        </h1>
+        <SearchForm />
       </Toolbar>
     </AppBar>
   );
