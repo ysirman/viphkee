@@ -1,0 +1,35 @@
+.videoListItem {
+  text-align: center;
+}
+
+.videoListItem a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.videoListItem .videoThumbnails {
+  width: 100%;
+  cursor: pointer;
+}
+
+.videoListItem .videoTitle {
+  display: block;
+  width: 320px;
+  height: 42px;
+  padding: 0px 10px;
+  box-sizing: content-box;
+  text-align: left;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
+@media screen and (max-width: 599px) {
+  .videoListItem,
+  .videoListItem .videoTitle {
+    width: 100vh;
+  }
+}

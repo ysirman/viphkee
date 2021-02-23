@@ -1,12 +1,13 @@
 import React from "react";
 
-import { Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 import "./PrivacyPolicy.css";
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <>
+    <Box p={3}>
       <Typography variant="h5" align="center">
         Privacy Policy
       </Typography>
@@ -36,7 +37,7 @@ const PrivacyPolicy: React.FC = () => {
         当サイトに掲載されている内容については、必ずしもその正確性、信頼性について保証するものではありません。
         当サイトに掲載された内容、及びサービス利用によって生じた損害等の一切の責任を負いかねますのでご了承ください。
       </Typography>
-    </>
+    </Box>
   );
 };
 

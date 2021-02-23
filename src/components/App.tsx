@@ -15,6 +15,7 @@ import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
 import FlashMessage from "./FlashMessage";
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollTop";
 
 import { APP_KEY } from "../utils/constants";
 import { StateSchema } from "../StateSchema";
@@ -120,6 +121,7 @@ const App: React.FC = () => {
         <PlayerContext.Provider value={{ state, dispatch }}>
           <CssBaseline />
           <FlashMessage />
+          <ScrollToTop />
           <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           <main
@@ -132,12 +134,8 @@ const App: React.FC = () => {
                 <Route exact path="/">
                   <PlayerPage />
                 </Route>
-                <>
-                  <Box p={3}>
-                    <Route path="/search" component={SearchVideo} />
-                    <Route path="/privacy_policy" component={PrivacyPolicy} />
-                  </Box>
-                </>
+                <Route path="/search" component={SearchVideo} />
+                <Route path="/privacy_policy" component={PrivacyPolicy} />
                 <Redirect to="/" />;
               </Switch>
             </Box>
