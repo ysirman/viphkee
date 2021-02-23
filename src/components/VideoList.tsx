@@ -3,10 +3,11 @@ import React, { useEffect, useCallback, useState } from "react";
 import VideoListItem from "./VideoListItem";
 import useGetVideos from "../hooks/useYoutubeResults";
 import { VideoListItemType } from "../Types";
-import "./VideoList.css";
+
+import LoadingIcon from "./LoadingIcon";
+import ErrorMessage from "./ErrorMessage";
 
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const VideoList: React.FC = () => {
   const {
@@ -17,14 +18,6 @@ const VideoList: React.FC = () => {
     isLoading,
   } = useGetVideos();
   const [searchResults, setSearchResults] = useState<VideoListItemType[]>([]);
-
-  const handleScroll = useCallback(() => {
-    const windowHeight = document.documentElement.offsetHeight;
-    const scrollHeight =
-      window.innerHeight + document.documentElement.scrollTop;
-    if (windowHeight > scrollHeight) return;
-    searchApi("", pageToken);
-  }, [isLoading]);
 
   // TODO:APIのURLをエラーが発生するURLに変更中
   useEffect(() => {
@@ -46,6 +39,14 @@ const VideoList: React.FC = () => {
     };
   }, []);
 
+  const handleScroll = useCallback(() => {
+    const windowHeight = document.documentElement.offsetHeight;
+    const scrollHeight =
+      window.innerHeight + document.documentElement.scrollTop;
+    if (windowHeight > scrollHeight) return;
+    searchApi("", pageToken);
+  }, [isLoading]);
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -65,42 +66,21 @@ const VideoList: React.FC = () => {
     };
   }, [isLoading]);
 
-  const videoList = () => {
-    const isResultEmpty = searchResults.length === 0;
-    return (
-      <>
-        {isResultEmpty ? (
-          <p>Could not find youtube videos.</p>
-        ) : (
-          searchResults.map(
-            (videoListItem: VideoListItemType, index: number) => (
-              <VideoListItem key={index} videoListItem={videoListItem} />
-            )
-          )
-        )}
-      </>
-    );
-  };
-
-  const searchResult = () => {
-    return <>{errorMessage === "" ? videoList() : <p>{errorMessage}</p>}</>;
-  };
-
-  const circularProgress = useCallback(() => {
-    if (isLoading) {
-      return (
-        <Grid className="centerAlign" item xs={12}>
-          <CircularProgress />
-        </Grid>
-      );
-    }
-  }, [isLoading]);
-
   return (
-    <>
-      {searchResult()}
-      {circularProgress()}
-    </>
+    <Grid container spacing={3} justify="center">
+      <ErrorMessage
+        isErrorEmpty={errorMessage === "" || isLoading}
+        message={errorMessage}
+      />
+      <ErrorMessage
+        isErrorEmpty={searchResults.length !== 0 || isLoading}
+        message={"Could not find youtube videos."}
+      />
+      {searchResults.map((videoListItem: VideoListItemType, index: number) => (
+        <VideoListItem key={index} videoListItem={videoListItem} />
+      ))}
+      <LoadingIcon isLoading={isLoading} />
+    </Grid>
   );
 };
 export default VideoList;
