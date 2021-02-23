@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import { PlayListType } from "../Types";
 
@@ -22,6 +23,8 @@ const PlayListItem: React.FC<{ playListItem: PlayListType; index: number }> = ({
 }) => {
   const { state, dispatch } = useContext(PlayerContext);
   const playerConfig = state.playerConfig;
+  const history = useHistory();
+
   const handleClickListItem = () => {
     dispatch(
       updatePlayerConfig({
@@ -35,6 +38,7 @@ const PlayListItem: React.FC<{ playListItem: PlayListType; index: number }> = ({
       })
     );
     dispatch(selectPlayList(playListItem));
+    history.push("/");
   };
 
   const handleDeleteButton = (e: any) => {

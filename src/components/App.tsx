@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
+import { Redirect, Route, Switch } from "react-router";
 import Ajv from "ajv";
 
 import PlayerContext from "../contexts/PlayerContext";
@@ -6,22 +7,24 @@ import reducer from "../reducers";
 import { State } from "../Types";
 import theme from "../theme";
 
-import Player from "./Player";
+import PlayerPage from "./pages/PlayerPage";
+import SearchVideo from "./pages/SearchVideo";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
-import PlayListForm from "./PlayListForm";
 import FlashMessage from "./FlashMessage";
 import Footer from "./Footer";
+import ScrollToTop from "./ScrollTop";
 
 import { APP_KEY } from "../utils/constants";
 import { StateSchema } from "../StateSchema";
 
 import clsx from "clsx";
-import { ThemeProvider } from "@material-ui/core";
+import { Box, ThemeProvider } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Box from "@material-ui/core/Box";
 
 const drawerWidth = 240;
 
@@ -29,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
+      position: "relative",
+      minHeight: "100vh",
+      paddingBottom: "60px",
     },
     content: {
       flexGrow: 2,
@@ -45,6 +51,20 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen,
       }),
       marginLeft: 0,
+    },
+    footer: {
+      width: "100%",
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    footerShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     },
   })
 );
@@ -101,6 +121,7 @@ const App: React.FC = () => {
         <PlayerContext.Provider value={{ state, dispatch }}>
           <CssBaseline />
           <FlashMessage />
+          <ScrollToTop />
           <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           <main
@@ -108,11 +129,21 @@ const App: React.FC = () => {
               [classes.contentShift]: menuOpen,
             })}
           >
-            <Box mt={"64px"}>
-              <Player />
+            <Box mt={"64px"} mb={4}>
+              <Switch>
+                <Route exact path="/">
+                  <PlayerPage />
+                </Route>
+                <Route path="/search" component={SearchVideo} />
+                <Route path="/privacy_policy" component={PrivacyPolicy} />
+                <Redirect to="/" />;
+              </Switch>
             </Box>
-            <PlayListForm />
-            <Footer />
+            <Footer
+              className={clsx(classes.footer, {
+                [classes.footerShift]: menuOpen,
+              })}
+            />
           </main>
         </PlayerContext.Provider>
       </div>

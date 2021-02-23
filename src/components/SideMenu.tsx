@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import PlayerContext from "../contexts/PlayerContext";
 
@@ -22,6 +23,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
+import PolicyIcon from "@material-ui/icons/Policy";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,6 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ListItemLink = (props: ListItemProps<"a", { button?: true }>) => {
   return <ListItem button component="a" {...props} />;
+};
+
+const ListItemReactRouterLink = (
+  props: ListItemProps<Link, { button?: true }>
+) => {
+  return <ListItem button component={Link} {...props} />;
 };
 
 const SideMenu: React.FC<{
@@ -88,18 +96,27 @@ const SideMenu: React.FC<{
       </div>
       <Divider />
       <List>
-        <ListItem button onClick={handleDeleteAllPlayList}>
+        <ListItemReactRouterLink to={"/privacy_policy"}>
           <ListItemIcon>
-            <DeleteSweepIcon />
+            <PolicyIcon />
           </ListItemIcon>
-          <ListItemText primary={"Clear Playlist"} />
-        </ListItem>
+          <ListItemText primary="Privacy Policy" />
+        </ListItemReactRouterLink>
         <ListItemLink href="https://docs.google.com/forms/d/e/1FAIpQLSejBQTliE_MK60ewFiXRq4UR8tf6yG7NzaD1TUT-FkdkFhPsA/viewform?usp=sf_link">
           <ListItemIcon>
             <ContactSupportIcon />
           </ListItemIcon>
           <ListItemText primary="Contact" />
         </ListItemLink>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={handleDeleteAllPlayList}>
+          <ListItemIcon>
+            <DeleteSweepIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Clear Playlist"} />
+        </ListItem>
       </List>
       <Divider />
       <PlayList />

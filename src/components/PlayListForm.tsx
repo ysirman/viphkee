@@ -11,9 +11,8 @@ import {
 } from "../actions/playList";
 import { FlashMessageText, updateFlashMessage } from "../actions/flashMessage";
 
-import { youtubeApiUrl, youtubeId } from "../utils/youtubeUrls";
+import { youtubeApiUrlVideo, youtubeId } from "../utils/youtubeUrls";
 
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
@@ -59,7 +58,7 @@ const PlayListForm: React.FC = () => {
     if (currentPlayListItem?.videoId === videoId) return;
     setIsLoading(true);
     axios
-      .get(youtubeApiUrl(videoId))
+      .get(youtubeApiUrlVideo(videoId))
       .then((response) => {
         const title = response.data.items.shift().snippet.title;
         setDefaultTitle(title);
@@ -95,9 +94,7 @@ const PlayListForm: React.FC = () => {
       <TextField
         id="outlined-full-width"
         label="Title"
-        style={{ margin: 8 }}
         placeholder="input phrase name"
-        margin="normal"
         fullWidth
         InputLabelProps={{
           shrink: true,
@@ -110,36 +107,34 @@ const PlayListForm: React.FC = () => {
   };
 
   return (
-    <Box mx={4} mt={1}>
-      <Grid container spacing={2} justify="flex-start" alignItems="center">
-        <Grid item xs={9}>
-          {isLoading === true ? <CircularProgress /> : textFieldForm()}
-        </Grid>
-        <Grid item>
-          <IconButton
-            aria-label="add"
-            onClick={handleAddButton}
-            disabled={!isVideoLoaded}
-          >
-            <PlaylistAddIcon />
-          </IconButton>
-          <IconButton
-            aria-label="update"
-            onClick={handleUpdateButton}
-            disabled={!isVideoLoaded}
-          >
-            <CachedIcon />
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            onClick={handleDeleteButton}
-            disabled={!isVideoLoaded}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Grid>
+    <Grid container spacing={2} justify="flex-start" alignItems="center">
+      <Grid item xs={12} sm={12} md={9}>
+        {isLoading === true ? <CircularProgress /> : textFieldForm()}
       </Grid>
-    </Box>
+      <Grid item>
+        <IconButton
+          aria-label="add"
+          onClick={handleAddButton}
+          disabled={!isVideoLoaded}
+        >
+          <PlaylistAddIcon />
+        </IconButton>
+        <IconButton
+          aria-label="update"
+          onClick={handleUpdateButton}
+          disabled={!isVideoLoaded}
+        >
+          <CachedIcon />
+        </IconButton>
+        <IconButton
+          aria-label="delete"
+          onClick={handleDeleteButton}
+          disabled={!isVideoLoaded}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
   );
 };
 

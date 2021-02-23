@@ -80,3 +80,24 @@ export type State = {
   playerConfig: PlayerConfigType;
   flashMessage: FlashMessageType;
 };
+
+// because don't know how to use @types/gapi or gapi-script in typescript
+// define types myself only required this app.
+export type YoutubeSearchResult = {
+  nextPageToken: string;
+  items: VideoListItemType[];
+};
+
+export type VideoListItemType = {
+  id: { videoId: string };
+  snippet: {
+    title: string;
+    thumbnails: Thumbnails;
+  };
+};
+
+export type Thumbnails = {
+  default: { url: string };
+  medium: { url: string };
+  high: { url: string };
+};
