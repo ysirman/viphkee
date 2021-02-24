@@ -28,8 +28,7 @@ export const youtubeApiUrlSearch = (
 ) => {
   // const maxResults = 50;
   // const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
-  // return `https://www.googleapis.com/youtube/v3/search?q=${keyword}&maxResults=${maxResults}&key=${YOUTUBE_API_KEY}&part=snippet&pageToken=${pageToken}`;
-  // return `https://www.googleapis.com/youtube/v3/search?q=${keyword}&maxResults=${maxResults}&key=${YOUTUBE_API_KEY}&part=snippet`;
+  // return `https://www.googleapis.com/youtube/v3/search?q=${keyword}&maxResults=${maxResults}&key=${YOUTUBE_API_KEY}&part=snippet&pageToken=${pageToken}&fields=nextPageToken,items(id(videoId),snippet(title,thumbnails(medium(url))))`;
   return "hoge";
 };
 
