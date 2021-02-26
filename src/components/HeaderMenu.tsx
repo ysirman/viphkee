@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import SearchForm from "./PlayerConfig/SearchForm";
-
 import clsx from "clsx";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -11,6 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { grey } from "@material-ui/core/colors";
 
@@ -26,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       backgroundColor: grey[900],
-      paddingRight: "24px",
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -46,35 +44,48 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const HeaderMenu: React.FC<{
-  menuOpen: boolean;
-  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ menuOpen, setMenuOpen }) => {
+  leftMenuOpen: boolean;
+  rightMenuOpen: boolean;
+  setLeftMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setRightMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ leftMenuOpen, rightMenuOpen, setLeftMenuOpen, setRightMenuOpen }) => {
   const classes = useStyles();
   const handleDrawerOpen = () => {
-    setMenuOpen(true);
+    setLeftMenuOpen(true);
+  };
+  const handleSearchDrawerOpen = () => {
+    setRightMenuOpen(true);
   };
 
   return (
     <AppBar
       position="fixed"
       className={clsx(classes.appBar, {
-        [classes.appBarShift]: menuOpen,
+        [classes.appBarShift]: leftMenuOpen,
       })}
     >
       <Toolbar>
         <IconButton
           color="inherit"
-          aria-label="open drawer"
+          aria-label="open left drawer"
           onClick={handleDrawerOpen}
           edge="start"
-          className={clsx(classes.menuButton, menuOpen && classes.hide)}
+          className={clsx(classes.menuButton, leftMenuOpen && classes.hide)}
         >
           <MenuIcon />
         </IconButton>
-        <h1 className="logo">
+        <h1 className="logo" style={{ flex: 1 }}>
           <Link to="/">Viphkee</Link>
         </h1>
-        <SearchForm />
+        <IconButton
+          color="inherit"
+          aria-label="open right drawer"
+          onClick={handleSearchDrawerOpen}
+          edge="start"
+          className={clsx(rightMenuOpen && classes.hide)}
+        >
+          <SearchIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );

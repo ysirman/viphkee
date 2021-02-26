@@ -1,5 +1,4 @@
 import React, { useState, useReducer, useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router";
 import Ajv from "ajv";
 
 import PlayerContext from "../contexts/PlayerContext";
@@ -7,26 +6,24 @@ import reducer from "../reducers";
 import { State } from "../Types";
 import theme from "../theme";
 
-import PlayerPage from "./pages/PlayerPage";
-import SearchVideo from "./pages/SearchVideo";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-
 import HeaderMenu from "./HeaderMenu";
 import SideMenu from "./SideMenu";
+import SideSearchMenu from "./SideSearchMenu";
 import FlashMessage from "./FlashMessage";
-import Footer from "./Footer";
+import Main from "./Main";
 import ScrollToTop from "./ScrollTop";
 
 import { APP_KEY } from "../utils/constants";
 import { StateSchema } from "../StateSchema";
 
 import clsx from "clsx";
-import { Box, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-const drawerWidth = 240;
+const leftDrawerWidth = 240;
+const rightDrawerWidth = 300;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,14 +40,30 @@ const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      marginLeft: -drawerWidth,
+      marginLeft: -leftDrawerWidth,
+      marginRight: -rightDrawerWidth,
     },
-    contentShift: {
+    contentLeftShift: {
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
       marginLeft: 0,
+    },
+    contentRightShift: {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: 0,
+    },
+    contentBothShift: {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+      marginRight: 0,
     },
     footer: {
       width: "100%",
@@ -59,8 +72,22 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
     },
-    footerShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
+    footerLeftShift: {
+      width: `calc(100% - ${leftDrawerWidth}px)`,
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    footerRightShift: {
+      width: `calc(100% - ${rightDrawerWidth}px)`,
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    footerBothShift: {
+      width: `calc(100% - ${leftDrawerWidth}px - ${rightDrawerWidth}px)`,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -109,7 +136,8 @@ const App: React.FC = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState());
   const classes = useStyles();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [leftMenuOpen, setLeftMenuOpen] = useState(false);
+  const [rightMenuOpen, setRightMenuOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(APP_KEY, JSON.stringify(state));
@@ -122,29 +150,29 @@ const App: React.FC = () => {
           <CssBaseline />
           <FlashMessage />
           <ScrollToTop />
-          <HeaderMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-          <SideMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-          <main
-            className={clsx(classes.content, {
-              [classes.contentShift]: menuOpen,
+          <HeaderMenu
+            leftMenuOpen={leftMenuOpen}
+            rightMenuOpen={rightMenuOpen}
+            setLeftMenuOpen={setLeftMenuOpen}
+            setRightMenuOpen={setRightMenuOpen}
+          />
+          <SideMenu menuOpen={leftMenuOpen} setMenuOpen={setLeftMenuOpen} />
+          <Main
+            mainClassName={clsx(classes.content, {
+              [classes.contentLeftShift]: !!(leftMenuOpen && !rightMenuOpen),
+              [classes.contentRightShift]: !!(!leftMenuOpen && rightMenuOpen),
+              [classes.contentBothShift]: !!(leftMenuOpen && rightMenuOpen),
             })}
-          >
-            <Box mt={"64px"} mb={4}>
-              <Switch>
-                <Route exact path="/">
-                  <PlayerPage />
-                </Route>
-                <Route path="/search" component={SearchVideo} />
-                <Route path="/privacy_policy" component={PrivacyPolicy} />
-                <Redirect to="/" />;
-              </Switch>
-            </Box>
-            <Footer
-              className={clsx(classes.footer, {
-                [classes.footerShift]: menuOpen,
-              })}
-            />
-          </main>
+            footerClassName={clsx(classes.footer, {
+              [classes.footerLeftShift]: !!(leftMenuOpen && !rightMenuOpen),
+              [classes.footerRightShift]: !!(!leftMenuOpen && rightMenuOpen),
+              [classes.footerBothShift]: !!(leftMenuOpen && rightMenuOpen),
+            })}
+          />
+          <SideSearchMenu
+            menuOpen={rightMenuOpen}
+            setMenuOpen={setRightMenuOpen}
+          />
         </PlayerContext.Provider>
       </div>
     </ThemeProvider>

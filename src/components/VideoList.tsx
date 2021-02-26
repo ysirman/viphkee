@@ -7,7 +7,7 @@ import { VideoListItemType } from "../Types";
 import LoadingIcon from "./LoadingIcon";
 import ErrorMessage from "./ErrorMessage";
 
-import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
 
 const VideoList: React.FC = () => {
   const {
@@ -39,18 +39,20 @@ const VideoList: React.FC = () => {
     };
   }, []);
 
-  const handleScroll = useCallback(() => {
-    const windowHeight = document.documentElement.offsetHeight;
-    const scrollHeight =
-      window.innerHeight + document.documentElement.scrollTop;
-    if (windowHeight > scrollHeight) return;
-    searchApi("", pageToken);
-  }, [isLoading]);
+  const handleScroll = useCallback(
+    (rightMenu: Element) => {
+      if (rightMenu.scrollTop + rightMenu.clientHeight < rightMenu.scrollHeight)
+        return;
+      searchApi("", pageToken);
+    },
+    [isLoading]
+  );
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    const rightMenu = document.querySelector("#rightMenu > div")!;
+    rightMenu.addEventListener("scroll", () => handleScroll(rightMenu));
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      rightMenu.removeEventListener("scroll", () => handleScroll(rightMenu));
     };
   }, [handleScroll]);
 
@@ -67,7 +69,7 @@ const VideoList: React.FC = () => {
   }, [isLoading]);
 
   return (
-    <Grid container spacing={3} justify="center">
+    <List>
       <ErrorMessage
         isErrorEmpty={errorMessage === "" || isLoading}
         message={errorMessage}
@@ -80,7 +82,7 @@ const VideoList: React.FC = () => {
         <VideoListItem key={index} videoListItem={videoListItem} />
       ))}
       <LoadingIcon isLoading={isLoading} />
-    </Grid>
+    </List>
   );
 };
 export default VideoList;

@@ -8,7 +8,8 @@ import { youtubeUrl } from "../utils/youtubeUrls";
 import { VideoListItemType } from "../Types";
 import "./VideoListItem.css";
 
-import Grid from "@material-ui/core/Grid";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
 
 const VideoListItem: React.FC<{
   videoListItem: VideoListItemType;
@@ -28,14 +29,17 @@ const VideoListItem: React.FC<{
   };
 
   return (
-    <Grid item className="videoListItem">
-      <img
-        className="videoThumbnails"
-        src={videoListItem.snippet.thumbnails.medium.url}
-        onClick={handleClickListItem}
-      />
-      <span className="videoTitle">{videoListItem.snippet.title}</span>
-    </Grid>
+    <>
+      <ListItem className="videoListItem" alignItems="center">
+        <img
+          className="videoThumbnails"
+          src={videoListItem.snippet.thumbnails.medium.url}
+          onClick={handleClickListItem}
+        />
+        <span className="videoTitle">{videoListItem.snippet.title}</span>
+      </ListItem>
+      <Divider className="divider" />
+    </>
   );
 };
 export default VideoListItem;

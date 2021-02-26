@@ -1,0 +1,7 @@
+.searchKeyword .MuiInputBase-root {
+  width: calc(100% - 48px);
+}
+.searchKeyword {
+  margin: 6px;
+  padding-left: 8px;
+}
