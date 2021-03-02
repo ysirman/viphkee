@@ -22,9 +22,9 @@ const FlashMessage: React.FC = () => {
     <>
       <Snackbar
         open={flashMessage.isOpen}
-        autoHideDuration={3000}
+        autoHideDuration={1500}
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "center",
         }}
         onClose={handleSnackbarClose}

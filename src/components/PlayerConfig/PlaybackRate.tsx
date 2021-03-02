@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
 import { updatePlayerConfig } from "../../actions/playerConfig";
@@ -8,17 +8,20 @@ import Slider from "@material-ui/core/Slider";
 const PlaybackRate: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
   const playerConfig = state.playerConfig;
+  const [playbackRate, setPlaybackRate] = useState(1);
 
   const handlePlaybackRate = (_: any, rate: number | number[]) => {
-    if (typeof rate === "number") {
-      dispatch(
-        updatePlayerConfig({
-          ...playerConfig,
-          playbackRate: rate,
-        })
-      );
-    }
+    dispatch(
+      updatePlayerConfig({
+        ...playerConfig,
+        playbackRate: rate as number,
+      })
+    );
   };
+
+  useEffect(() => {
+    setPlaybackRate(playerConfig.playbackRate);
+  }, [playerConfig.playbackRate]);
 
   return (
     <>
@@ -36,8 +39,9 @@ const PlaybackRate: React.FC = () => {
         ]}
         valueLabelDisplay={"auto"}
         color={"secondary"}
-        value={playerConfig.playbackRate}
-        onChange={handlePlaybackRate}
+        value={playbackRate}
+        onChange={(_, v) => setPlaybackRate(v as number)}
+        onChangeCommitted={handlePlaybackRate}
       />
     </>
   );

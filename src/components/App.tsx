@@ -1,9 +1,6 @@
-import React, { useState, useReducer, useEffect } from "react";
-import Ajv from "ajv";
+import React, { useState } from "react";
 
-import PlayerContext from "../contexts/PlayerContext";
-import reducer from "../reducers";
-import { State } from "../Types";
+import PlayerProvider from "../contexts/PlayerProvider";
 import theme from "../theme";
 
 import HeaderMenu from "./HeaderMenu";
@@ -12,9 +9,6 @@ import SideSearchMenu from "./SideSearchMenu";
 import FlashMessage from "./FlashMessage";
 import Main from "./Main";
 import ScrollToTop from "./ScrollTop";
-
-import { APP_KEY } from "../utils/constants";
-import { StateSchema } from "../StateSchema";
 
 import clsx from "clsx";
 import { ThemeProvider } from "@material-ui/core";
@@ -97,56 +91,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const App: React.FC = () => {
-  const initialState = (): State => {
-    const defaultState = {
-      playList: [],
-      playerConfig: {
-        url: "",
-        playing: true,
-        played: 0,
-        loaded: 0,
-        duration: 0,
-        playbackRate: 1.0,
-        loopState: {
-          isLoop: false,
-          start: "0:00",
-          end: "0:00",
-        },
-        zoomState: {
-          isZoom: false,
-          min: 0,
-          max: 100,
-        },
-      },
-      flashMessage: {
-        isOpen: false,
-        message: "",
-      },
-    };
-    const appKeyLocalStorageData = localStorage.getItem(APP_KEY);
-    if (!appKeyLocalStorageData) return defaultState;
-
-    const appState = JSON.parse(appKeyLocalStorageData);
-    const ajv = new Ajv();
-    const validate = ajv.compile(StateSchema);
-    if (validate(appState)) return appState as State;
-
-    return defaultState;
-  };
-
-  const [state, dispatch] = useReducer(reducer, initialState());
   const classes = useStyles();
   const [leftMenuOpen, setLeftMenuOpen] = useState(false);
   const [rightMenuOpen, setRightMenuOpen] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem(APP_KEY, JSON.stringify(state));
-  }, [state]);
-
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <PlayerContext.Provider value={{ state, dispatch }}>
+        <PlayerProvider>
           <CssBaseline />
           <FlashMessage />
           <ScrollToTop />
@@ -173,7 +125,7 @@ const App: React.FC = () => {
             menuOpen={rightMenuOpen}
             setMenuOpen={setRightMenuOpen}
           />
-        </PlayerContext.Provider>
+        </PlayerProvider>
       </div>
     </ThemeProvider>
   );

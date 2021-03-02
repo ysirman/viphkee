@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
+import LoopTimeAdjust from "./LoopTimeAdjust";
 import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { secondsToTime, timeToSeconds } from "../../utils/formatter";
@@ -8,17 +9,11 @@ import { validateHHMMSS } from "../../utils/validator";
 
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 
 import LoopIcon from "@material-ui/icons/Loop";
 import ZoomOutMapIcon from "@material-ui/icons/ZoomOutMap";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-
-import "./LoopConfig.css";
 
 const LoopConfig: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);
@@ -41,33 +36,7 @@ const LoopConfig: React.FC = () => {
     );
   };
 
-  const handleLoopStart = (loopStart: string) => {
-    if (loopStart === "") {
-      loopStart = "0:00";
-    }
-    console.log("set loop start time:", loopStart);
-    dispatch(
-      updatePlayerConfig({
-        ...playerConfig,
-        loopState: { ...loopState, start: loopStart },
-      })
-    );
-  };
-
-  const handleLoopEnd = (loopEnd: string): void => {
-    if (loopEnd === "") {
-      loopEnd = "0:00";
-    }
-    console.log("set loop end time:", loopEnd);
-    dispatch(
-      updatePlayerConfig({
-        ...playerConfig,
-        loopState: { ...loopState, end: loopEnd },
-      })
-    );
-  };
-
-  const handleZooming = (_: any) => {
+  const handleZooming = () => {
     if (zoomState.isZoom === false && loopState.end !== "0:00") {
       const min =
         (timeToSeconds(loopState.start) / playerConfig.duration) * 100 - 5;
@@ -88,33 +57,6 @@ const LoopConfig: React.FC = () => {
         updatePlayerConfig({
           ...playerConfig,
           zoomState: { ...zoomState, isZoom: false },
-        })
-      );
-    }
-  };
-
-  const handleLoopStartUpDown = (plusOrMinus: number) => {
-    const newStartValue = timeToSeconds(loopState.start) + 1 * plusOrMinus;
-    if (newStartValue >= 0 && newStartValue < timeToSeconds(loopState.end)) {
-      dispatch(
-        updatePlayerConfig({
-          ...playerConfig,
-          loopState: { ...loopState, start: secondsToTime(newStartValue) },
-        })
-      );
-    }
-  };
-
-  const handleLoopEndUpDown = (plusOrMinus: number) => {
-    const newEndValue = timeToSeconds(loopState.end) + 1 * plusOrMinus;
-    if (
-      newEndValue <= playerConfig.duration &&
-      newEndValue > timeToSeconds(loopState.start)
-    ) {
-      dispatch(
-        updatePlayerConfig({
-          ...playerConfig,
-          loopState: { ...loopState, end: secondsToTime(newEndValue) },
         })
       );
     }
@@ -151,48 +93,7 @@ const LoopConfig: React.FC = () => {
         </Grid>
       </Grid>
       <Grid item>
-        <Grid container alignItems="center">
-          <Grid container item xs alignItems="center">
-            <Grid item>
-              <TextField
-                className="loopInput"
-                label="Loop Start"
-                variant="outlined"
-                size="small"
-                value={loopState.start}
-                onChange={(e) => handleLoopStart(e.target.value)}
-              />
-            </Grid>
-            <Grid item className="loopTime-arrowIcon">
-              <IconButton>
-                <ArrowDropUpIcon onClick={() => handleLoopStartUpDown(1)} />
-              </IconButton>
-              <IconButton>
-                <ArrowDropDownIcon onClick={() => handleLoopStartUpDown(-1)} />
-              </IconButton>
-            </Grid>
-          </Grid>
-          <Grid container item xs alignItems="center">
-            <Grid item>
-              <TextField
-                className="loopInput"
-                label="Loop End"
-                variant="outlined"
-                size="small"
-                value={loopState.end}
-                onChange={(e) => handleLoopEnd(e.target.value)}
-              />
-            </Grid>
-            <Grid item className="loopTime-arrowIcon">
-              <IconButton>
-                <ArrowDropUpIcon onClick={() => handleLoopEndUpDown(1)} />
-              </IconButton>
-              <IconButton>
-                <ArrowDropDownIcon onClick={() => handleLoopEndUpDown(-1)} />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Grid>
+        <LoopTimeAdjust />
       </Grid>
     </Grid>
   );

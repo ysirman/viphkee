@@ -1,14 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import PlayerContext from "../contexts/PlayerContext";
-
-import { resetPlayerConfig } from "../actions/playerConfig";
-import { deleteAllPlayList } from "../actions/playList";
-
 import PlayList from "./PlayList";
-
-import { APP_KEY } from "../utils/constants";
+import ClearPlaylistListItemButton from "./ClearPlaylistListItemButton";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -21,7 +15,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ListItem, { ListItemProps } from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import PolicyIcon from "@material-ui/icons/Policy";
 
@@ -61,24 +54,10 @@ const SideMenu: React.FC<{
   setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ menuOpen, setMenuOpen }) => {
   const classes = useStyles();
-  const { dispatch } = useContext(PlayerContext);
 
   const handleDrawerClose = () => {
     setMenuOpen(false);
   };
-
-  const handleDeleteAllPlayList = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to permanently remove all playlist?"
-      )
-    ) {
-      dispatch(resetPlayerConfig());
-      dispatch(deleteAllPlayList());
-      localStorage.removeItem(APP_KEY);
-    }
-  };
-
   return (
     <Drawer
       className={classes.drawer}
@@ -110,14 +89,7 @@ const SideMenu: React.FC<{
         </ListItemLink>
       </List>
       <Divider />
-      <List>
-        <ListItem button onClick={handleDeleteAllPlayList}>
-          <ListItemIcon>
-            <DeleteSweepIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Clear Playlist"} />
-        </ListItem>
-      </List>
+      <ClearPlaylistListItemButton />
       <Divider />
       <PlayList />
     </Drawer>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
 import { updatePlayerConfig } from "../../actions/playerConfig";
@@ -13,6 +13,14 @@ const LoopRangeSlider: React.FC = () => {
   const loopState = playerConfig.loopState;
   const zoomState = playerConfig.zoomState;
   const isVideoLoaded = playerConfig.url !== "";
+  const [loopTime, setLoopTime] = useState([0, 0]);
+
+  useEffect(() => {
+    setLoopTime([
+      (timeToSeconds(loopState.start) / playerConfig.duration) * 100,
+      (timeToSeconds(loopState.end) / playerConfig.duration) * 100,
+    ]);
+  }, [loopState]);
 
   const loopMarks = [
     { value: 0, label: secondsToTime(0) },
@@ -55,19 +63,17 @@ const LoopRangeSlider: React.FC = () => {
     ];
   };
 
-  const handleChangeLoopRange = (_: any, newValue: number | number[]) => {
-    if (newValue instanceof Array) {
-      dispatch(
-        updatePlayerConfig({
-          ...playerConfig,
-          loopState: {
-            ...loopState,
-            start: secondsToTime((newValue[0] / 100) * playerConfig.duration),
-            end: secondsToTime((newValue[1] / 100) * playerConfig.duration),
-          },
-        })
-      );
-    }
+  const handleChangeLoopRange = (newValue: number[]) => {
+    dispatch(
+      updatePlayerConfig({
+        ...playerConfig,
+        loopState: {
+          ...loopState,
+          start: secondsToTime((newValue[0] / 100) * playerConfig.duration),
+          end: secondsToTime((newValue[1] / 100) * playerConfig.duration),
+        },
+      })
+    );
   };
 
   return (
@@ -77,10 +83,7 @@ const LoopRangeSlider: React.FC = () => {
         max={zoomState.isZoom ? zoomState.max : 100}
         step={0.0000000001}
         color={zoomState.isZoom ? "secondary" : "primary"}
-        value={[
-          (timeToSeconds(loopState.start) / playerConfig.duration) * 100,
-          (timeToSeconds(loopState.end) / playerConfig.duration) * 100,
-        ]}
+        value={loopTime}
         getAriaLabel={(index) =>
           index === 0 ? "Start loop time" : "End loop time"
         }
@@ -93,7 +96,8 @@ const LoopRangeSlider: React.FC = () => {
         valueLabelFormat={(v) =>
           secondsToTime((v / 100) * playerConfig.duration)
         }
-        onChange={handleChangeLoopRange}
+        onChange={(_, v) => setLoopTime(v as number[])}
+        onChangeCommitted={(_, v) => handleChangeLoopRange(v as number[])}
         disabled={!isVideoLoaded}
       />
     </>
