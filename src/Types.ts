@@ -17,7 +17,6 @@ export type PlayerConfigType = {
   url: string;
   playing: boolean;
   played: number;
-  loaded: number;
   duration: number;
   playbackRate: number;
   loopState: LoopStateType;

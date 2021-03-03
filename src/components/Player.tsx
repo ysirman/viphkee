@@ -33,7 +33,6 @@ const Player: React.FC = () => {
       updatePlayerConfig({
         ...playerConfig,
         played: progress.played,
-        loaded: progress.loaded,
       })
     );
   };

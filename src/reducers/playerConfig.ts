@@ -5,7 +5,6 @@ const initialState: PlayerConfigType = {
   url: "",
   playing: true,
   played: 0,
-  loaded: 0,
   duration: 0,
   playbackRate: 1.0,
   loopState: {

@@ -50,9 +50,6 @@ export const StateSchema = {
         duration: {
           type: "number",
         },
-        loaded: {
-          type: "number",
-        },
         loopState: {
           additionalProperties: false,
           properties: {
