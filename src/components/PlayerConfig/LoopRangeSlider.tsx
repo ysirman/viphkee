@@ -76,6 +76,18 @@ const LoopRangeSlider: React.FC = () => {
     );
   };
 
+  const checkValue = (v: number) => {
+    if (!v) return 0;
+    return v;
+  };
+
+  const checkArrayValue = (v: number[]) => {
+    const v0 = checkValue(v[0]);
+    const v1 = checkValue(v[1]);
+    if (v0 > v1) return [v1, v0];
+    return [v0, v1];
+  };
+
   return (
     <>
       <Slider
@@ -94,10 +106,12 @@ const LoopRangeSlider: React.FC = () => {
         marks={zoomState.isZoom ? zoomMarks() : loopMarks}
         valueLabelDisplay={"auto"}
         valueLabelFormat={(v) =>
-          secondsToTime((v / 100) * playerConfig.duration)
+          secondsToTime((checkValue(v) / 100) * playerConfig.duration)
         }
-        onChange={(_, v) => setLoopTime(v as number[])}
-        onChangeCommitted={(_, v) => handleChangeLoopRange(v as number[])}
+        onChange={(_, v) => setLoopTime(checkArrayValue(v as number[]))}
+        onChangeCommitted={(_, v) =>
+          handleChangeLoopRange(checkArrayValue(v as number[]))
+        }
         disabled={!isVideoLoaded}
       />
     </>
