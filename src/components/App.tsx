@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import PlayerProvider from "../contexts/PlayerProvider";
+import AppProvider from "../contexts/AppProvider";
 import theme from "../theme";
 
 import HeaderMenu from "./HeaderMenu";
@@ -98,7 +98,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
-        <PlayerProvider>
+        <AppProvider>
           <CssBaseline />
           <FlashMessage />
           <ScrollToTop />
@@ -125,7 +125,7 @@ const App: React.FC = () => {
             menuOpen={rightMenuOpen}
             setMenuOpen={setRightMenuOpen}
           />
-        </PlayerProvider>
+        </AppProvider>
       </div>
     </ThemeProvider>
   );

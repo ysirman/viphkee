@@ -68,9 +68,6 @@ export const StateSchema = {
         playbackRate: {
           type: "number",
         },
-        played: {
-          type: "number",
-        },
         playing: {
           type: "boolean",
         },

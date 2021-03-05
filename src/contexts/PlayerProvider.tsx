@@ -14,7 +14,6 @@ const PlayerProvider = (props: { children: React.ReactNode }) => {
       playerConfig: {
         url: "",
         playing: true,
-        played: 0,
         duration: 0,
         playbackRate: 1.0,
         loopState: {

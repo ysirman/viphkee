@@ -4,7 +4,6 @@ import { PlayerConfigType, PlayerConfigAction } from "../Types";
 const initialState: PlayerConfigType = {
   url: "",
   playing: true,
-  played: 0,
   duration: 0,
   playbackRate: 1.0,
   loopState: {

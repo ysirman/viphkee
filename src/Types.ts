@@ -2,6 +2,7 @@ import { CombinedState } from "redux";
 import { PlayerConfigActionType } from "./actions/playerConfig";
 import { PlayListActionType } from "./actions/playList";
 import { FlashMessageActionType } from "./actions/flashMessage";
+import { PlayerTimeActionType } from "./actions/playerTime";
 
 export type PlayListType = {
   id: number;
@@ -16,7 +17,6 @@ export type PlayListType = {
 export type PlayerConfigType = {
   url: string;
   playing: boolean;
-  played: number;
   duration: number;
   playbackRate: number;
   loopState: LoopStateType;
@@ -47,6 +47,10 @@ export type ProgressType = {
   loadedSeconds: number;
 };
 
+export type PlayerTimeType = {
+  played: number;
+};
+
 type ValueOf<T> = T[keyof T];
 export type PlayerConfigAction = {
   type: ValueOf<typeof PlayerConfigActionType>;
@@ -63,6 +67,11 @@ export type FlashMessageAction = {
   payload?: FlashMessageType;
 };
 
+export type PlayerTimeAction = {
+  type: ValueOf<typeof PlayerTimeActionType>;
+  payload?: PlayerTimeType;
+};
+
 export type Action = PlayerConfigAction | PlayListAction | FlashMessageAction;
 
 export type PlayerContextType = {
@@ -72,6 +81,11 @@ export type PlayerContextType = {
     flashMessage: FlashMessageType;
   }>;
   dispatch: (action: Action) => void;
+};
+
+export type PlayerTimeContextType = {
+  state: PlayerTimeType;
+  dispatch: (action: PlayerTimeAction) => void;
 };
 
 export type State = {

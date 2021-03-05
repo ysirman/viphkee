@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
+import PlayedTime from "./PlayedTime";
 import LoopTimeAdjust from "./LoopTimeAdjust";
 import { updatePlayerConfig } from "../../actions/playerConfig";
 
-import { secondsToTime, timeToSeconds } from "../../utils/formatter";
+import { timeToSeconds } from "../../utils/formatter";
 import { validateHHMMSS } from "../../utils/validator";
 
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
-import Typography from "@material-ui/core/Typography";
 
 import LoopIcon from "@material-ui/icons/Loop";
 import ZoomOutMapIcon from "@material-ui/icons/ZoomOutMap";
@@ -86,9 +86,7 @@ const LoopConfig: React.FC = () => {
             <AccessTimeIcon />
           </Grid>
           <Grid item>
-            <Typography>
-              {secondsToTime(playerConfig.played * playerConfig.duration)}{" "}
-            </Typography>
+            <PlayedTime duration={playerConfig.duration} />
           </Grid>
         </Grid>
       </Grid>
