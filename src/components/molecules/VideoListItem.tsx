@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import PlayerContext from "../contexts/PlayerContext";
-import { updatePlayerConfig } from "../actions/playerConfig";
+import PlayerContext from "../../contexts/PlayerContext";
+import { updatePlayerConfig } from "../../actions/playerConfig";
 
-import { youtubeUrl } from "../utils/youtubeUrls";
-import { VideoListItemType } from "../Types";
+import { youtubeUrl } from "../../utils/youtubeUrls";
+import { VideoListItemType } from "../../Types";
 import "./VideoListItem.css";
 
 import ListItem from "@material-ui/core/ListItem";

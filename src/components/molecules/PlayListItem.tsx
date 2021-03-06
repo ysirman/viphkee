@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import { PlayListType } from "../Types";
+import { PlayListType } from "../../Types";
 
-import { resetPlayerConfig, updatePlayerConfig } from "../actions/playerConfig";
-import { selectPlayList, deletePlayList } from "../actions/playList";
-import PlayerContext from "../contexts/PlayerContext";
+import {
+  resetPlayerConfig,
+  updatePlayerConfig,
+} from "../../actions/playerConfig";
+import { selectPlayList, deletePlayList } from "../../actions/playList";
+import PlayerContext from "../../contexts/PlayerContext";
 
-import { youtubeUrl, youtubeImgUrl } from "../utils/youtubeUrls";
+import { youtubeUrl, youtubeImgUrl } from "../../utils/youtubeUrls";
 
 import ListItem from "@material-ui/core/ListItem";
 import IconButton from "@material-ui/core/IconButton";

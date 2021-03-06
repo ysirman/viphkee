@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
-import PlayerContext from "../contexts/PlayerContext";
+import PlayerContext from "../../contexts/PlayerContext";
 
-import { resetPlayerConfig } from "../actions/playerConfig";
-import { deleteAllPlayList } from "../actions/playList";
+import { resetPlayerConfig } from "../../actions/playerConfig";
+import { deleteAllPlayList } from "../../actions/playList";
 
-import { APP_KEY } from "../utils/constants";
+import { APP_KEY } from "../../utils/constants";
 
 import List from "@material-ui/core/List";
 

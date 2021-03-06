@@ -1,17 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-import PlayerContext from "../contexts/PlayerContext";
+import PlayerContext from "../../contexts/PlayerContext";
 
-import { resetPlayerConfig } from "../actions/playerConfig";
+import { resetPlayerConfig } from "../../actions/playerConfig";
 import {
   addPlayList,
   updatePlayList,
   deletePlayList,
-} from "../actions/playList";
-import { FlashMessageText, updateFlashMessage } from "../actions/flashMessage";
+} from "../../actions/playList";
+import {
+  FlashMessageText,
+  updateFlashMessage,
+} from "../../actions/flashMessage";
 
-import { youtubeApiUrlVideo, youtubeId } from "../utils/youtubeUrls";
+import { youtubeApiUrlVideo, youtubeId } from "../../utils/youtubeUrls";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";

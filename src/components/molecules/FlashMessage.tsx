@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import PlayerContext from "../contexts/PlayerContext";
+import PlayerContext from "../../contexts/PlayerContext";
 
-import { resetFlashMessage } from "../actions/flashMessage";
+import { resetFlashMessage } from "../../actions/flashMessage";
 
 import Snackbar from "@material-ui/core/Snackbar";
 

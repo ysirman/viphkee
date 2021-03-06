@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
 import PlayerContext from "../../contexts/PlayerContext";
-import PlayedTime from "./PlayedTime";
-import LoopTimeAdjust from "./LoopTimeAdjust";
+import PlayedTime from "../molecules/PlayedTime";
+import LoopTimeAdjust from "../molecules/LoopTimeAdjust";
 import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { timeToSeconds } from "../../utils/formatter";

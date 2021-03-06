@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import ReactPlayer from "react-player";
 
-import PlayerContext from "../contexts/PlayerContext";
-import PlayerTimeContext from "../contexts/PlayerTimeContext";
-import { ProgressType } from "../Types";
-import { updatePlayerConfig } from "../actions/playerConfig";
-import { updatePlayerTime } from "../actions/playerTime";
+import PlayerContext from "../../contexts/PlayerContext";
+import PlayerTimeContext from "../../contexts/PlayerTimeContext";
+import { ProgressType } from "../../Types";
+import { updatePlayerConfig } from "../../actions/playerConfig";
+import { updatePlayerTime } from "../../actions/playerTime";
 
-import { timeToSeconds } from "../utils/formatter";
+import { timeToSeconds } from "../../utils/formatter";
 
 const Player: React.FC = () => {
   const { state, dispatch } = useContext(PlayerContext);

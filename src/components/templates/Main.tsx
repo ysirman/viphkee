@@ -1,11 +1,11 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
 
-import PlayerPage from "./pages/PlayerPage";
-import SearchVideo from "./pages/SearchVideo";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
+import PlayerPage from "../pages/PlayerPage";
+import SearchVideo from "../pages/SearchVideo";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
-import Footer from "./Footer";
+import Footer from "../organisms/Footer";
 
 import { Box } from "@material-ui/core";
 

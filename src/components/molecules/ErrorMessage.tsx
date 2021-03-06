@@ -1,5 +1,5 @@
 import React from "react";
-import "./common.css";
+import "../common.css";
 
 const ErrorMessage: React.FC<{ isErrorEmpty: boolean; message: string }> = ({
   isErrorEmpty,

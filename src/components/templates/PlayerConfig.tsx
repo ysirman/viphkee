@@ -1,8 +1,8 @@
 import React from "react";
 
-import PlaybackRate from "./PlaybackRate";
-import LoopRangeSlider from "./LoopRangeSlider";
-import LoopConfig from "./LoopConfig";
+import PlaybackRate from "../molecules/PlaybackRate";
+import LoopRangeSlider from "../molecules/LoopRangeSlider";
+import LoopConfig from "../organisms/LoopConfig";
 
 import Box from "@material-ui/core/Box";
 

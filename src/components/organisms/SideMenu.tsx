@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import PlayList from "./PlayList";
-import ClearPlaylistListItemButton from "./ClearPlaylistListItemButton";
+import PlayList from "../templates/PlayList";
+import ClearPlaylistListItemButton from "../molecules/ClearPlaylistListItemButton";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 

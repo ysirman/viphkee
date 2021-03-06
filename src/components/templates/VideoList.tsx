@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback, useState } from "react";
 
-import VideoListItem from "./VideoListItem";
-import useGetVideos from "../hooks/useYoutubeResults";
-import { VideoListItemType } from "../Types";
+import VideoListItem from "../molecules/VideoListItem";
+import useGetVideos from "../../hooks/useYoutubeResults";
+import { VideoListItemType } from "../../Types";
 
-import LoadingIcon from "./LoadingIcon";
-import ErrorMessage from "./ErrorMessage";
+import LoadingIcon from "../molecules/LoadingIcon";
+import ErrorMessage from "../molecules/ErrorMessage";
 
 import List from "@material-ui/core/List";
 

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
-import AppProvider from "../contexts/AppProvider";
-import theme from "../theme";
+import AppProvider from "../../contexts/AppProvider";
+import theme from "../../theme";
 
-import HeaderMenu from "./HeaderMenu";
-import SideMenu from "./SideMenu";
-import SideSearchMenu from "./SideSearchMenu";
-import FlashMessage from "./FlashMessage";
+import HeaderMenu from "../organisms/HeaderMenu";
+import SideMenu from "../organisms/SideMenu";
+import SideSearchMenu from "../organisms/SideSearchMenu";
+import FlashMessage from "../molecules/FlashMessage";
 import Main from "./Main";
-import ScrollToTop from "./ScrollTop";
+import ScrollToTop from "../molecules/ScrollTop";
 
 import clsx from "clsx";
 import { ThemeProvider } from "@material-ui/core";

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import PlayerContext from "../contexts/PlayerContext";
-import { PlayListType } from "../Types";
+import PlayerContext from "../../contexts/PlayerContext";
+import { PlayListType } from "../../Types";
 
-import PlayListItem from "./PlayListItem";
+import PlayListItem from "../molecules/PlayListItem";
 
 import List from "@material-ui/core/List";
 

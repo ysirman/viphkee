@@ -1,9 +1,9 @@
 import React from "react";
 
-import Player from "../Player";
-import PlayerConfig from "../PlayerConfig";
-import PlayListForm from "../PlayListForm";
-import InputUrl from "../PlayerConfig/InputUrl";
+import Player from "../molecules/Player";
+import PlayerConfig from "../templates/PlayerConfig";
+import PlayListForm from "../molecules/PlayListForm";
+import InputUrl from "../molecules/InputUrl";
 
 import Box from "@material-ui/core/Box";
 

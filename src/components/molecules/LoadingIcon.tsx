@@ -1,6 +1,6 @@
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import "./common.css";
+import "../common.css";
 
 const LoadingIcon: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
   if (!isLoading) return null;
