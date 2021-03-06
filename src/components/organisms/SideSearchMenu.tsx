@@ -1,7 +1,7 @@
 import React from "react";
 
 import SearchForm from "../molecules/SearchForm";
-import VideoList from "../templates/VideoList";
+import VideoList from "../../containers/templates/VideoList";
 
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 

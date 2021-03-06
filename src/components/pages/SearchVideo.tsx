@@ -1,6 +1,6 @@
 import React from "react";
 
-import VideoList from "../templates/VideoList";
+import VideoList from "../../containers/templates/VideoList";
 
 import Box from "@material-ui/core/Box";
 
