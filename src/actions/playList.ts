@@ -1,6 +1,6 @@
 import { PlayerConfigType, PlayListAction, PlayListType } from "../Types";
 import { DEFAULT_PLAY_LIST_ID } from "../utils/constants";
-import { youtubeId } from "../utils/youtubeUrls";
+import { videoIdByUrl } from "../utils/youtubeUrls";
 
 const FEATURE = "playList";
 export const PlayListActionType = {
@@ -18,7 +18,7 @@ const payload = (
 ) => {
   return {
     id: DEFAULT_PLAY_LIST_ID,
-    videoId: youtubeId(playerConfig.url),
+    videoId: videoIdByUrl(playerConfig.url),
     videoTitle: videoTitle,
     defaultTitle: defaultTitle,
     loopStart: playerConfig.loopState.start,

@@ -22,12 +22,8 @@ const LoopConfig: React.FC = () => {
   const zoomState = playerConfig.zoomState;
 
   const handleLooping = () => {
-    if (validateHHMMSS(loopState.start)) {
-      return;
-    }
-    if (validateHHMMSS(loopState.end) || loopState.end === "0:00") {
-      return;
-    }
+    if (!validateHHMMSS(loopState.start)) return;
+    if (!validateHHMMSS(loopState.end) || loopState.end === "0:00") return;
     dispatch(
       updatePlayerConfig({
         ...playerConfig,

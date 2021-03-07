@@ -14,7 +14,7 @@ import {
   updateFlashMessage,
 } from "../../actions/flashMessage";
 
-import { youtubeApiUrlVideo, youtubeId } from "../../utils/youtubeUrls";
+import { youtubeApiUrlVideo, videoIdByUrl } from "../../utils/youtubeUrls";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -56,7 +56,7 @@ const PlayListForm: React.FC = () => {
 
   useEffect(() => {
     if (!playerConfig.url) return;
-    const videoId = youtubeId(playerConfig.url);
+    const videoId = videoIdByUrl(playerConfig.url);
     if (videoId === "") return;
     if (currentPlayListItem?.videoId === videoId) return;
     setIsLoading(true);

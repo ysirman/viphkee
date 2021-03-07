@@ -5,12 +5,15 @@ export const youtubeUrl = (videoId: string) => {
   return `https://www.youtube.com/watch?v=${videoId}`;
 };
 
-export const youtubeId = (url: string) => {
-  const youtubeId = new URL(url).searchParams.get("v");
-  if (youtubeId == null) {
-    return "";
-  }
-  return youtubeId;
+export const videoIdByUrl = (url: string) => {
+  const videoId = new URL(url).searchParams.get("v");
+  if (videoId) return videoId.split("?")[0];
+  const videoIdByPathname = new URL(url).pathname
+    .split("/")[1]
+    .split("?")[0]
+    .split("&")[0];
+  if (videoIdByPathname) return videoIdByPathname;
+  return "";
 };
 
 export const youtubeImgUrl = (videoId: string) => {

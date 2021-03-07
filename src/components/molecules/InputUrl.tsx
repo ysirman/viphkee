@@ -4,6 +4,7 @@ import PlayerContext from "../../contexts/PlayerContext";
 import { updatePlayerConfig } from "../../actions/playerConfig";
 
 import { validateUrl } from "../../utils/validator";
+import { youtubeUrl, videoIdByUrl } from "../../utils/youtubeUrls";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -26,7 +27,7 @@ const InputUrl: React.FC = () => {
     dispatch(
       updatePlayerConfig({
         ...playerConfig,
-        url: url,
+        url: youtubeUrl(videoIdByUrl(url)),
       })
     );
   };
