@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
@@ -10,8 +10,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import "./SearchForm.css";
 
 const SearchForm: React.FC = () => {
-  const [searchKeyword, setSearchKeyword] = useState("");
-
   const handlePressEnterKey = (e: React.KeyboardEvent) => {
     const ENTER_KEY_CODE = 13;
     if (e.keyCode !== ENTER_KEY_CODE) return;
@@ -22,12 +20,7 @@ const SearchForm: React.FC = () => {
   return (
     <List component="div">
       <Paper className="searchKeyword">
-        <InputBase
-          placeholder="Search"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-          onKeyDown={handlePressEnterKey}
-        />
+        <InputBase placeholder="Search" onKeyDown={handlePressEnterKey} />
         <IconButton className="searchButton">
           <SearchIcon />
         </IconButton>
